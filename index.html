@@ -91,22 +91,38 @@
   .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
   .stats .tag { background: #fff; padding: 4px 12px; font-size: 15px; }
 
-  /* Library room: brick back wall, shaded side walls and ceiling, baseboard, perspective wood floor */
-  .room { border-radius: 24px; overflow: hidden; border: 6px solid #6b4220; margin-bottom: 14px; box-shadow: 0 18px 30px -12px #0008, inset 0 0 0 2px #b8803f; }
+  /* Library room: intergalactic space station. Lilac panel walls, a window onto space, glowing teal skirting, lilac metal floor */
+  .room { border-radius: 24px; overflow: hidden; border: 6px solid #4a3fa5; margin-bottom: 14px; box-shadow: 0 18px 30px -12px #1a1450aa, inset 0 0 0 2px #9d92f0; }
   .wall {
-    padding: 18px 18px 24px; border-bottom: 14px solid #f3e7d6; position: relative;
+    padding: 18px 18px 24px; border-bottom: 14px solid #6fe3d2; position: relative;
     background:
-      radial-gradient(ellipse at 50% 20%, #ffe8a844 0, transparent 70%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='48'%3E%3Crect width='64' height='48' fill='%23e3d2bd'/%3E%3Crect x='2' y='2' width='28' height='20' fill='%23b9503a'/%3E%3Crect x='34' y='2' width='28' height='20' fill='%23c45f46'/%3E%3Crect x='18' y='26' width='28' height='20' fill='%23c9654b'/%3E%3Crect x='50' y='26' width='28' height='20' fill='%23ad4733'/%3E%3Crect x='-14' y='26' width='28' height='20' fill='%23ad4733'/%3E%3Crect x='2' y='2' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='34' y='2' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='18' y='26' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='50' y='26' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='-14' y='26' width='28' height='3' fill='%23ffffff22'/%3E%3C/svg%3E");
-    box-shadow: inset 0 26px 30px -16px #000b, inset 28px 0 30px -18px #000a, inset -28px 0 30px -18px #000a;
+      radial-gradient(ellipse at 50% 0, #7be0d055 0, transparent 65%),
+      radial-gradient(ellipse at 92% 70%, #ff8fc733 0, transparent 55%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='64'%3E%3Crect width='128' height='64' fill='%237a72d8'/%3E%3Crect x='2' y='2' width='60' height='60' rx='9' fill='%23a59df4'/%3E%3Crect x='66' y='2' width='60' height='60' rx='9' fill='%239890ec'/%3E%3Crect x='2' y='2' width='60' height='6' rx='3' fill='%23ffffff33'/%3E%3Crect x='66' y='2' width='60' height='6' rx='3' fill='%23ffffff33'/%3E%3Cg fill='%23e3dfff'%3E%3Ccircle cx='9' cy='10' r='2'/%3E%3Ccircle cx='55' cy='10' r='2'/%3E%3Ccircle cx='9' cy='54' r='2'/%3E%3Ccircle cx='55' cy='54' r='2'/%3E%3Ccircle cx='73' cy='10' r='2'/%3E%3Ccircle cx='119' cy='10' r='2'/%3E%3Ccircle cx='73' cy='54' r='2'/%3E%3Ccircle cx='119' cy='54' r='2'/%3E%3C/g%3E%3C/svg%3E");
+    box-shadow: inset 0 26px 30px -16px #1a1450cc, inset 28px 0 30px -18px #1a1450bb, inset -28px 0 30px -18px #1a1450bb, 0 6px 14px #6fe3d288;
   }
-  .walldeco { display: flex; flex-wrap: wrap; gap: 16px; font-size: 42px; margin-bottom: 14px; min-height: 10px; filter: drop-shadow(3px 6px 4px #0007); }
+  .wallrow { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 14px; }
+  .walldeco { flex: 1; display: flex; flex-wrap: wrap; gap: 16px; font-size: 42px; min-height: 10px; filter: drop-shadow(3px 6px 4px #1a145099); }
+  .spacewin {
+    position: relative; flex: none; width: min(42%, 340px); height: 120px; border-radius: 18px; border: 6px solid #d9d4ff; overflow: hidden;
+    box-shadow: inset 0 0 22px #000a, 0 0 0 3px #6a61cf, 0 6px 14px #1a145099;
+    background:
+      radial-gradient(circle at 12% 30%, #fff 0 1.5px, transparent 2px), radial-gradient(circle at 30% 78%, #ffd36b 0 1.5px, transparent 2px),
+      radial-gradient(circle at 55% 18%, #fff 0 1px, transparent 2px), radial-gradient(circle at 74% 66%, #fff 0 1.5px, transparent 2px),
+      radial-gradient(circle at 90% 24%, #7be0d0 0 1.5px, transparent 2px), radial-gradient(circle at 42% 50%, #fff 0 1px, transparent 2px),
+      radial-gradient(ellipse at 80% 100%, #ff8fc766, transparent 60%),
+      linear-gradient(135deg, #1b1a55, #3b2f8f 60%, #5b3fae);
+  }
+  .spacewin::before, .spacewin::after { content: ""; position: absolute; background: #d9d4ff; z-index: 1; }
+  .spacewin::before { left: 50%; top: 0; bottom: 0; width: 5px; transform: translateX(-50%); }
+  .spacewin::after { top: 50%; left: 0; right: 0; height: 5px; transform: translateY(-50%); }
+  .spacewin span { position: absolute; line-height: 1; transform: translate(-50%, -50%); filter: drop-shadow(0 2px 3px #0008); }
   .shelves { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; }
   .shelf {
     display: flex; align-items: flex-end; gap: 3px; min-height: 142px; padding: 0 8px;
-    background: linear-gradient(#2e1c0d, #5b3a1d); border: 7px solid #9a6431; border-bottom-width: 15px;
-    border-color: #c28a4a #7a4d22 #5e3a18 #8a5a2b; border-radius: 6px 6px 3px 3px;
-    box-shadow: inset 0 14px 18px -4px #000c, inset 10px 0 10px -6px #0009, inset -10px 0 10px -6px #0009, 0 12px 14px -4px #000b;
+    background: linear-gradient(#17164a, #2d2a75); border: 7px solid #8f86e8; border-bottom-width: 15px;
+    border-color: #cfc9ff #6a61cf #4b43a8 #7a71d8; border-radius: 6px 6px 3px 3px;
+    box-shadow: inset 0 14px 18px -4px #000c, inset 10px 0 10px -6px #0009, inset -10px 0 10px -6px #0009, 0 12px 14px -4px #1a1450cc, 0 0 18px #7be0d044;
   }
   .spine {
     border: 0; border-radius: 3px; color: #fff; font: 700 11px/1 ui-rounded, system-ui, sans-serif; padding: 6px 0;
@@ -116,16 +132,28 @@
     text-shadow: 0 1px 1px #0005;
   }
   .spine:hover, .spine:focus-visible { transform: translateY(-6px) rotate(-3deg); }
-  .floor { position: relative; overflow: hidden; background: #6e4220; padding: 22px 18px 12px; min-height: 120px; display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; font-size: 46px; line-height: 1; }
+  .floor { position: relative; overflow: hidden; background: #5c4fc0; padding: 24px 18px 14px; min-height: 200px; display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; font-size: 46px; line-height: 1; }
   .floor::before {
     content: ""; position: absolute; left: -30%; right: -30%; top: 0; bottom: -30px; z-index: 0;
     background:
-      linear-gradient(#0006, #0000 55%),
-      repeating-linear-gradient(0deg, #0000 0 38px, #0004 38px 40px),
-      repeating-linear-gradient(90deg, #cf9358 0 62px, #8a5528 62px 65px);
+      linear-gradient(#1a14506e, #0000 55%),
+      repeating-linear-gradient(0deg, #0000 0 38px, #5b4fc055 38px 40px),
+      repeating-linear-gradient(90deg, #b8aef9 0 62px, #8d80ea 62px 65px);
     transform: perspective(240px) rotateX(38deg); transform-origin: 50% 0;
   }
-  .floor > * { position: relative; z-index: 1; filter: drop-shadow(0 8px 3px #000a); }
+  .floor::after {   /* glowing light strip along the bottom of the wall */
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px; z-index: 0;
+    background: repeating-linear-gradient(90deg, #7be0d0 0 60px, #ff8fc7 60px 100px, #ffd36b 100px 130px);
+    box-shadow: 0 2px 14px #7be0d0aa;
+  }
+  .floor > * { position: relative; z-index: 1; filter: drop-shadow(0 8px 3px #1a1450aa); }
+  .sofamon { flex: none; width: 250px; max-width: 100%; margin-right: 10px; border: 0; background: none; padding: 0; cursor: pointer; }
+  .sofamon svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .mon-bob { animation: monbob 3.2s ease-in-out infinite; }
+  .sofamon.jump .mon-bob { animation: monjump .5s ease; }
+  @keyframes monbob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+  @keyframes monjump { 30% { transform: translateY(-16px); } 60% { transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) { .mon-bob { animation: none !important; } }
 
   /* Reading ladder + Kinds Explorer */
   .ladder { width: min(100%, 360px); margin: 6px auto 0; display: flex; flex-direction: column; border-left: 8px solid #c68b59; border-right: 8px solid #c68b59; padding: 0 6px; }
@@ -212,8 +240,10 @@
     .buy { min-height: 52px; font-size: 18px; }
     .shelves { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
     .shelf { min-height: 170px; }
-    .floor { font-size: 60px; min-height: 150px; }
+    .floor { font-size: 60px; min-height: 250px; }
+    .sofamon { width: 320px; }
     .walldeco { font-size: 54px; }
+    .spacewin { height: 150px; }
     .hint { font-size: 18px; }
     #p-books, #p-ladder, #p-friends { display: grid; gap: 0 20px; align-items: start; }
     #p-books { grid-template-columns: 1fr 1fr; }
@@ -341,11 +371,41 @@ const SHOP = [
   { id:'teddy',  kind:'floor', em:'🧸', name:'Snuggle Monster',   ds:'A friend to read with', cost:30 },
   { id:'globe',  kind:'floor', em:'🌍', name:'Monster Map Globe', ds:'Find where monsters live', cost:35 },
   { id:'fish',   kind:'floor', em:'🐠', name:'Googly Fish',       ds:'Blub blub', cost:40 },
-  { id:'sofa',   kind:'floor', em:'🛋️', name:'Squishy Sofa',      ds:'Eats snacks you drop', cost:50 },
   { id:'cat',    kind:'floor', em:'🐈‍⬛', name:'Spooky Cat',        ds:'Purrs in the dark', cost:60 },
   { id:'owl',    kind:'floor', em:'🦉', name:'Night Owl',         ds:'Hoo loves spooky books?', cost:70 },
   { id:'trophy', kind:'floor', em:'🏆', name:'Golden Trophy',     ds:'For a super reader', cost:100 },
 ];
+// Every library has a monster reading on a sofa, drawn here (viewBox 260x190). Tap it and it giggles.
+const POKES = ['Hee hee!', 'Shh, I\'m reading!', 'Nom nom… I mean, hello!', 'This book is so good!', 'Turn the page, please!', 'Burp! Sorry.'];
+const SOFA_MONSTER = '<svg viewBox="0 0 260 190" role="img" aria-label="A monster sitting on a sofa reading a book">' +
+  '<ellipse cx="130" cy="178" rx="118" ry="9" fill="#1a1450" opacity=".45"/>' +
+  '<rect x="22" y="34" width="216" height="104" rx="30" fill="#3fb8a8"/><rect x="36" y="44" width="188" height="26" rx="13" fill="#fff" opacity=".12"/>' +
+  '<g class="mon-bob">' +
+    '<path d="M92 60L82 18L118 46Z" fill="#ffe08a"/><path d="M168 60L178 18L142 46Z" fill="#ffe08a"/>' +
+    '<ellipse cx="130" cy="98" rx="54" ry="60" fill="#b79cff"/><ellipse cx="130" cy="126" rx="34" ry="28" fill="#fff" opacity=".28"/>' +
+    '<circle cx="86" cy="104" r="6" fill="#000" opacity=".1"/><circle cx="176" cy="94" r="8" fill="#000" opacity=".1"/>' +
+    '<circle cx="111" cy="78" r="15" fill="#fff"/><circle cx="149" cy="78" r="15" fill="#fff"/>' +
+    '<circle cx="113" cy="83" r="7" fill="#2d1b4e"/><circle cx="147" cy="83" r="7" fill="#2d1b4e"/>' +
+    '<circle cx="116" cy="79" r="2.6" fill="#fff"/><circle cx="150" cy="79" r="2.6" fill="#fff"/>' +
+    '<path d="M114 102Q130 118 146 102Q130 107 114 102Z" fill="#5a1530"/>' +
+  '</g>' +
+  '<rect x="32" y="112" width="196" height="50" rx="20" fill="#6fe3d2"/><rect x="32" y="112" width="196" height="12" rx="6" fill="#fff" opacity=".22"/>' +
+  '<path d="M130 126V160" stroke="#3fb8a8" stroke-width="3" opacity=".5"/>' +
+  '<g class="mon-bob">' +
+    '<ellipse cx="108" cy="140" rx="22" ry="13" fill="#9f82f0"/><ellipse cx="152" cy="140" rx="22" ry="13" fill="#9f82f0"/>' +
+    '<ellipse cx="98" cy="148" rx="16" ry="8" fill="#8d6fe6"/><ellipse cx="162" cy="148" rx="16" ry="8" fill="#8d6fe6"/>' +
+    '<g transform="rotate(-4 130 112)"><rect x="98" y="94" width="64" height="38" rx="4" fill="#ff8fc7"/>' +
+    '<rect x="101" y="97" width="28" height="32" rx="2" fill="#fff"/><rect x="131" y="97" width="28" height="32" rx="2" fill="#fff"/>' +
+    '<path d="M107 106h16M107 112h16M107 118h12M137 106h16M137 112h16M137 118h12" stroke="#b9b1e8" stroke-width="2.5" stroke-linecap="round"/></g>' +
+    '<ellipse cx="94" cy="116" rx="14" ry="10" fill="#b79cff"/><ellipse cx="166" cy="116" rx="14" ry="10" fill="#b79cff"/>' +
+  '</g>' +
+  '<g transform="rotate(-14 66 128)"><rect x="50" y="108" width="34" height="32" rx="9" fill="#ff8fc7"/>' +
+  '<path d="M67 116l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z" fill="#ffe08a"/></g>' +
+  '<rect x="4" y="74" width="50" height="86" rx="22" fill="#4fcdbb"/><rect x="206" y="74" width="50" height="86" rx="22" fill="#4fcdbb"/>' +
+  '<rect x="11" y="80" width="36" height="11" rx="5.5" fill="#fff" opacity=".22"/><rect x="213" y="80" width="36" height="11" rx="5.5" fill="#fff" opacity=".22"/>' +
+  '<rect x="16" y="158" width="16" height="14" rx="4" fill="#f6c453"/><rect x="228" y="158" width="16" height="14" rx="4" fill="#f6c453"/></svg>';
+// The window onto space in the library wall: emoji at (left %, top %, size px)
+const SPACE_WINDOW = '<div class="spacewin" aria-hidden="true"><span style="left:68%;top:30%;font-size:40px">🪐</span><span style="left:16%;top:54%;font-size:28px">🚀</span><span style="left:44%;top:76%;font-size:24px">🛸</span><span style="left:86%;top:76%;font-size:22px">🌙</span></div>';
 // Mascot accessories from the short-lived mascot version, only so they can be refunded once
 const OLD_ACC = { tophat: 35, crown: 100, cap: 25, grad: 40, bow: 20, shades: 30, specs: 25, goggles: 35, scarf: 30, medal: 45, beads: 20, balloon: 20, pizza: 25, icecream: 25, book: 30, wand: 50, sneakers: 30, boots: 35, flips: 20, pack: 35, wings: 60 };
 
@@ -387,7 +447,7 @@ function demoData() {
       mk(1, 'Captain Underpants', 'Dav Pilkey', 120, 'Funny', COLORS[2], 'I laughed so much.'),
     ],
     friends: [{ id: 'f1', name: 'Mia', avatar: '👻', likes: ['Animals', 'Fantasy'] }],
-    recs: [], owned: { shelf: 2, window: 1, clock: 1, plant: 1, lamp: 1, sofa: 1 }, earned: 320, spent: 190,
+    recs: [], owned: { shelf: 2, window: 1, clock: 1, plant: 1, lamp: 1, teddy: 1 }, earned: 320, spent: 170,
     rungs: [1, 3, 5], kinds: ['Animals', 'Fantasy', 'Funny', 'Science'], kindBadges: [2, 4],
   };
 }
@@ -409,6 +469,8 @@ function migrate(d) {
     d.spent = Math.max(0, (+d.spent || 0) - refund);
     d.owned = {}; delete d.mascot; delete d.worn;
   }
+  // The sofa is now part of the scene (with a monster on it): give back the 50 coins to anyone who bought one, once.
+  if (d.owned && typeof d.owned === 'object' && d.owned.sofa) { d.spent = Math.max(0, (+d.spent || 0) - 50); delete d.owned.sofa; }
   return d;
 }
 // Rebuild state from scratch with strict types, so a hand-edited or hostile backup (or storage) can't smuggle markup, huge
@@ -571,8 +633,8 @@ function renderRoom() {
   $('room').innerHTML =
     (extra > 0 ? '<div class="hint">📦 ' + extra + ' book' + (extra > 1 ? 's are' : ' is') + ' waiting in a box. Buy another bookshelf in the Shop!</div>' : '') +
     (!books.length ? '<div class="hint">Your shelves are empty. Finish a book and it will appear here! 📖</div>' : '') +
-    '<div class="room"><div class="wall"><div class="walldeco">' + deco('wall') + '</div><div class="shelves">' + shelves + '</div></div>' +
-    '<div class="floor">' + (deco('floor') || '<span style="font-size:16px;font-weight:700;color:#fff">Buy things in the Shop to fill your floor!</span>') + '</div></div>';
+    '<div class="room"><div class="wall"><div class="wallrow"><div class="walldeco">' + deco('wall') + '</div>' + SPACE_WINDOW + '</div><div class="shelves">' + shelves + '</div></div>' +
+    '<div class="floor"><button class="sofamon" data-act="poke" aria-label="Tap the monster">' + SOFA_MONSTER + '</button>' + deco('floor') + '</div></div>';
 }
 // Total books read = books on the list; removing one never takes a rung (or its coins) away.
 function renderLadder() {
@@ -689,6 +751,7 @@ document.addEventListener('click', e => {
       render(); break;
     case 'nodel': confirmId = ''; render(); break;
     case 'spine': { const b = S.books.find(x => x.id === id); if (b) toast('“' + b.title + '”' + (b.author ? ' by ' + b.author : '')); break; }
+    case 'poke': t.classList.remove('jump'); void t.offsetWidth; t.classList.add('jump'); toast('Monster: ' + POKES[Math.floor(Math.random() * POKES.length)]); break;
     case 'backup': backup(); break;
     case 'buy': buy(id); break;
     case 'pickAvatar': fdraft.avatar = id; renderFriends(); break;
