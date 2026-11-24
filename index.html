@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Monster Club">
+<meta name="theme-color" content="#d8c8ff">
 <title>The Book Eating Monster Club</title>
 <style>
   :root {
@@ -16,37 +20,20 @@
     --gold-ink: #7a5500;
     --good: #2fbf4f;
   }
-  * { box-sizing: border-box; }
-  html { background: linear-gradient(180deg, #d8c8ff 0%, #c9f5d3 60%, #fff0c9 100%) fixed; }
-  .say { margin: 2px 0 0; font-size: 14px; font-weight: 700; font-style: italic; color: var(--muted); }
-  @keyframes wob { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg) scale(1.08); } }
-  .wob { display: inline-block; animation: wob 1.6s ease-in-out infinite; }
-  .kinds { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin: 10px 0; }
-  .kind { text-align: center; border-radius: 16px; padding: 8px 4px; background: #eee9f7; color: #9a8fb5; font-weight: 700; font-size: 14px; }
-  .kind.got { background: #dff8e4; color: var(--ink); }
-  .kind .em { font-size: 34px; line-height: 1.1; display: block; }
-  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
-  .badge { background: #eee9f7; color: #9a8fb5; border-radius: 14px; padding: 8px 12px; font-weight: 800; font-size: 14px; }
-  .badge.got { background: #fff2c2; color: var(--gold-ink); }
-  .stickers { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
-  .sticker { border: 3px dashed var(--line); background: #fff; border-radius: 20px; padding: 10px 4px; text-align: center; font: inherit; color: var(--ink); cursor: pointer; min-height: 120px; }
-  .sticker .em { font-size: 46px; line-height: 1.1; display: block; }
-  .sticker b { display: block; font-size: 14px; }
-  .sticker small { display: block; font-size: 12px; color: var(--muted); }
-  .sticker.got { border-style: solid; border-color: var(--accent); }
-  .sticker.got:hover .em, .sticker.on .em { animation: wob 1.2s ease-in-out infinite; }
-  .sticker.on { background: #efe7ff; }
-  .sticker.lock { opacity: .55; cursor: default; }
-  @media (prefers-reduced-motion: reduce) { .wob, .sticker .em { animation: none !important; } }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { background: linear-gradient(180deg, #d8c8ff 0%, #c9f5d3 60%, #fff0c9 100%) fixed; -webkit-text-size-adjust: 100%; }
   body {
-    margin: 0; padding: 16px 16px 60px; color: var(--ink);
+    margin: 0; color: var(--ink);
+    padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(60px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
     font-family: ui-rounded, "SF Pro Rounded", "Trebuchet MS", system-ui, sans-serif;
     font-size: 17px; line-height: 1.4;
   }
+  button, a, label { touch-action: manipulation; }
   .wrap { max-width: 860px; margin: 0 auto; }
   header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
   h1 { margin: 0; font-size: clamp(26px, 6vw, 38px); color: var(--accent); }
   h2 { margin: 0 0 10px; font-size: 22px; }
+  .say { margin: 2px 0 0; font-size: 14px; font-weight: 700; font-style: italic; color: var(--muted); }
   .coins {
     background: var(--gold); color: var(--gold-ink); font-weight: 800; font-size: 24px;
     padding: 6px 18px; border-radius: 999px; box-shadow: 0 3px 0 #d9a21c;
@@ -72,19 +59,16 @@
     font: inherit; font-weight: 600; color: var(--ink); cursor: pointer;
   }
   .chip.on { background: #efe7ff; border-color: var(--accent); }
-  .swatch { width: 44px; height: 44px; border-radius: 12px; border: 4px solid #fff; box-shadow: 0 0 0 2px var(--line); cursor: pointer; padding: 0; }
-  .swatch.on { box-shadow: 0 0 0 4px var(--ink); }
-  .star { border: 0; background: none; font-size: 32px; line-height: 1; color: #d8ceea; cursor: pointer; padding: 2px 3px; min-width: 40px; min-height: 44px; }
-  .star.on { color: #ffb400; }
   .big {
     border: 0; border-radius: 18px; padding: 12px 22px; min-height: 52px; font: inherit; font-weight: 800; font-size: 19px;
-    background: var(--good); color: #fff; box-shadow: 0 4px 0 #048a68; cursor: pointer; margin-top: 14px;
+    background: var(--good); color: #fff; box-shadow: 0 4px 0 #1f8d38; cursor: pointer; margin-top: 14px;
   }
-  .big:active { transform: translateY(2px); box-shadow: 0 2px 0 #048a68; }
+  .big:active { transform: translateY(2px); box-shadow: 0 2px 0 #1f8d38; }
   .small {
-    border: 2px solid var(--line); background: #fff; border-radius: 12px; padding: 6px 12px; min-height: 40px;
+    border: 2px solid var(--line); background: #fff; border-radius: 12px; padding: 6px 12px; min-height: 44px;
     font: inherit; font-weight: 700; color: var(--ink); cursor: pointer;
   }
+  a.small { display: inline-flex; align-items: center; text-decoration: none; }
   .small.warn { border-color: #ff9aa8; color: #c0243d; }
   .small.go { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
   .preview { margin-top: 10px; font-weight: 800; color: var(--gold-ink); }
@@ -100,10 +84,14 @@
   .book .meta { color: var(--muted); font-size: 14px; }
   .book .note { font-style: italic; font-size: 15px; }
   .tag { display: inline-block; background: #efe7ff; border-radius: 999px; padding: 0 10px; font-size: 14px; font-weight: 700; }
-  .earned { color: var(--gold-ink); font-weight: 800; font-size: 14px; }
   .empty { color: var(--muted); text-align: center; padding: 18px 6px; }
+  .try { margin-top: 14px; }
+  .try > b { display: block; }
+  .hint { background: #fff; border-radius: 14px; padding: 10px 14px; margin-bottom: 14px; font-weight: 700; }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .stats .tag { background: #fff; padding: 4px 12px; font-size: 15px; }
 
-  /* Mascot room: brick back wall, shaded side walls and ceiling, baseboard, perspective wood floor */
+  /* Library room: brick back wall, shaded side walls and ceiling, baseboard, perspective wood floor */
   .room { border-radius: 24px; overflow: hidden; border: 6px solid #6b4220; margin-bottom: 14px; box-shadow: 0 18px 30px -12px #0008, inset 0 0 0 2px #b8803f; }
   .wall {
     padding: 18px 18px 24px; border-bottom: 14px solid #f3e7d6; position: relative;
@@ -113,7 +101,22 @@
     box-shadow: inset 0 26px 30px -16px #000b, inset 28px 0 30px -18px #000a, inset -28px 0 30px -18px #000a;
   }
   .walldeco { display: flex; flex-wrap: wrap; gap: 16px; font-size: 42px; margin-bottom: 14px; min-height: 10px; filter: drop-shadow(3px 6px 4px #0007); }
-  .floor { position: relative; overflow: hidden; background: #6e4220; min-height: 64px; }
+  .shelves { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; }
+  .shelf {
+    display: flex; align-items: flex-end; gap: 3px; min-height: 142px; padding: 0 8px;
+    background: linear-gradient(#2e1c0d, #5b3a1d); border: 7px solid #9a6431; border-bottom-width: 15px;
+    border-color: #c28a4a #7a4d22 #5e3a18 #8a5a2b; border-radius: 6px 6px 3px 3px;
+    box-shadow: inset 0 14px 18px -4px #000c, inset 10px 0 10px -6px #0009, inset -10px 0 10px -6px #0009, 0 12px 14px -4px #000b;
+  }
+  .spine {
+    border: 0; border-radius: 3px; color: #fff; font: 700 11px/1 ui-rounded, system-ui, sans-serif; padding: 6px 0;
+    writing-mode: vertical-rl; text-orientation: mixed; overflow: hidden; cursor: pointer;
+    background-image: linear-gradient(90deg, #0000 0, #ffffff40 14%, #0000 38%, #0000 70%, #00000055 100%);
+    box-shadow: inset 2px 0 0 #ffffff55, inset -2px 0 0 #0003, 3px 0 4px #000a; transition: transform .15s;
+    text-shadow: 0 1px 1px #0005;
+  }
+  .spine:hover, .spine:focus-visible { transform: translateY(-6px) rotate(-3deg); }
+  .floor { position: relative; overflow: hidden; background: #6e4220; padding: 22px 18px 12px; min-height: 120px; display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; font-size: 46px; line-height: 1; }
   .floor::before {
     content: ""; position: absolute; left: -30%; right: -30%; top: 0; bottom: -30px; z-index: 0;
     background:
@@ -122,27 +125,9 @@
       repeating-linear-gradient(90deg, #cf9358 0 62px, #8a5528 62px 65px);
     transform: perspective(240px) rotateX(38deg); transform-origin: 50% 0;
   }
-  /* Mascot */
-  .mname { text-align: center; font-weight: 900; font-size: 22px; color: #fff; text-shadow: 0 2px 3px #000a; margin-top: 8px; }
-  .stage { position: relative; width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto; }
-  .stage::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: -4px; height: 14px; border-radius: 50%; background: #0006; filter: blur(4px); }
-  .mon { position: absolute; inset: 0; border: 0; background: none; padding: 0; cursor: pointer; z-index: 1; transform-origin: 50% 100%; animation: bob 3s ease-in-out infinite; }
-  .mon.jump { animation: jump .5s ease; }
-  .mon svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
-  .acc { position: absolute; transform: translate(-50%, -50%); line-height: 1; z-index: 2; pointer-events: none; filter: drop-shadow(0 3px 2px #0007); }
-  .acc.back { z-index: 0; }
-  .acc.flip { transform: translate(-50%, -50%) scaleX(-1); }
-  @keyframes bob { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-5px) scale(1.01, .99); } }
-  @keyframes jump { 0% { transform: scale(1, 1); } 30% { transform: translateY(-34px) scale(.94, 1.08); } 60% { transform: translateY(0) scale(1.08, .9); } 100% { transform: scale(1, 1); } }
-  .wardrobe .slot { margin-top: 10px; }
-  .wardrobe .slot > b { display: block; color: var(--muted); font-size: 14px; margin-bottom: 4px; }
-  .chip .em { font-size: 24px; vertical-align: middle; }
-  @media (prefers-reduced-motion: reduce) { .mon { animation: none !important; } }
-  .hint { background: #fff; border-radius: 14px; padding: 10px 14px; margin-bottom: 14px; font-weight: 700; }
-  .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-  .stats .tag { background: #fff; padding: 4px 12px; font-size: 15px; }
+  .floor > * { position: relative; z-index: 1; filter: drop-shadow(0 8px 3px #000a); }
 
-  /* Reading ladder */
+  /* Reading ladder + Kinds Explorer */
   .ladder { width: min(100%, 360px); margin: 6px auto 0; display: flex; flex-direction: column; border-left: 8px solid #c68b59; border-right: 8px solid #c68b59; padding: 0 6px; }
   .rung { position: relative; display: flex; align-items: center; gap: 10px; padding: 12px 6px 10px; border-bottom: 8px solid #e0a96d; opacity: .55; }
   .rung.done { opacity: 1; }
@@ -153,6 +138,13 @@
   .rung .bn { font-size: 13px; font-weight: 800; color: var(--gold-ink); }
   .climber { position: absolute; right: -44px; top: 6px; font-size: 34px; }
   .ladderwrap { padding-right: 44px; }
+  .kinds { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin: 10px 0; }
+  .kind { text-align: center; border-radius: 16px; padding: 8px 4px; background: #eee9f7; color: #9a8fb5; font-weight: 700; font-size: 14px; }
+  .kind.got { background: #dff8e4; color: var(--ink); }
+  .kind .em { font-size: 34px; line-height: 1.1; display: block; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge { background: #eee9f7; color: #9a8fb5; border-radius: 14px; padding: 8px 12px; font-weight: 800; font-size: 14px; }
+  .badge.got { background: #fff2c2; color: var(--gold-ink); }
 
   /* Shop */
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
@@ -193,7 +185,42 @@
     padding: 12px 20px; border-radius: 999px; z-index: 30; max-width: 90vw; text-align: center;
   }
   [hidden] { display: none !important; }
-  @media (prefers-reduced-motion: reduce) { .pop div.b, .conf { animation: none; } .conf { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .pop div.b, .conf { animation: none; } .conf { display: none; } .spine { transition: none; } }
+
+  /* iPad and other tablets: wider page, bigger touch targets, two columns where it helps */
+  @media (min-width: 768px) {
+    body { font-size: 19px; padding-top: max(24px, env(safe-area-inset-top)); }
+    .wrap { max-width: 1120px; }
+    h1 { font-size: 44px; }
+    h2 { font-size: 26px; }
+    .say { font-size: 16px; }
+    .coins { font-size: 30px; padding: 8px 24px; }
+    nav { gap: 12px; margin-bottom: 20px; }
+    nav button { min-height: 76px; font-size: 17px; border-radius: 22px; }
+    nav button span { font-size: 32px; }
+    .card { padding: 24px; border-radius: 26px; margin-bottom: 20px; }
+    input[type=text], input[type=number], textarea { min-height: 56px; font-size: 19px; }
+    .chip { min-height: 52px; font-size: 18px; padding: 6px 18px; }
+    .small { min-height: 52px; font-size: 17px; padding: 6px 16px; }
+    .big { min-height: 64px; font-size: 22px; }
+    .cover { width: 64px; height: 86px; }
+    .book .t { font-size: 20px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+    .item { padding: 16px; }
+    .item .em { font-size: 60px; }
+    .item .ds { font-size: 15px; }
+    .buy { min-height: 52px; font-size: 18px; }
+    .shelves { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .shelf { min-height: 170px; }
+    .floor { font-size: 60px; min-height: 150px; }
+    .walldeco { font-size: 54px; }
+    .hint { font-size: 18px; }
+    #p-books, #p-ladder, #p-friends { display: grid; gap: 0 20px; align-items: start; }
+    #p-books { grid-template-columns: 1fr 1fr; }
+    #p-books > .formcard { grid-row: span 2; }
+    #p-ladder { grid-template-columns: 1fr 1fr; }
+    #p-friends { grid-template-columns: 1fr 1.3fr; }
+  }
 </style>
 </head>
 <body>
@@ -210,15 +237,15 @@
 
   <nav id="tabs">
     <button data-act="tab" data-id="books"><span>📚</span>My Books</button>
-    <button data-act="tab" data-id="mascot"><span>👾</span>My Monster</button>
-    <button data-act="tab" data-id="stickers"><span>🏅</span>Stickers</button>
+    <button data-act="tab" data-id="library"><span>🏰</span>My Library</button>
+    <button data-act="tab" data-id="ladder"><span>🪜</span>My Ladder</button>
     <button data-act="tab" data-id="shop"><span>🛍️</span>Shop</button>
     <button data-act="tab" data-id="friends"><span>💌</span>Friends</button>
   </nav>
 
   <!-- MY BOOKS -->
   <section id="p-books">
-    <div class="card">
+    <div class="card formcard">
       <h2>Feed the monsters a book! 👾</h2>
       <label for="f-title">Book name</label>
       <input type="text" id="f-title" placeholder="Book name" autocomplete="off">
@@ -228,54 +255,34 @@
       </div>
       <label>What kind of book is it?</label>
       <div class="chips" id="f-genres"></div>
-      <label>Pick a cover colour</label>
-      <div class="chips" id="f-colors"></div>
-      <label>How much did I like it?</label>
-      <div id="f-stars"></div>
       <label for="f-note">What I liked about it (you can skip this)</label>
       <textarea id="f-note" rows="2" placeholder="It was funny because…"></textarea>
       <div class="preview" id="f-preview"></div>
       <div class="msg" id="f-msg"></div>
       <button class="big" data-act="addBook">Nom nom! I finished it 🪙</button>
     </div>
+    <div class="card" id="next"></div>
     <div class="card">
       <h2>Books I have read</h2>
       <div id="list"></div>
     </div>
   </section>
 
-  <!-- MY MONSTER -->
-  <section id="p-mascot" hidden>
+  <!-- MY LIBRARY -->
+  <section id="p-library" hidden>
     <div class="stats" id="stats"></div>
     <div id="room"></div>
-    <div class="card wardrobe">
-      <h2>👕 Wardrobe</h2>
-      <div class="meta" style="color:var(--muted);font-size:14px">Tap something to wear it. Tap it again to take it off.</div>
-      <div id="wardrobe"></div>
-    </div>
-    <div class="card">
-      <h2>🎨 About my monster</h2>
-      <label for="m-name">Name</label>
-      <input type="text" id="m-name" maxlength="16" autocomplete="off">
-      <label>Colour</label>
-      <div class="chips" id="mcolors"></div>
-    </div>
-    <div id="ladder"></div>
   </section>
 
-  <!-- STICKERS + KINDS EXPLORER -->
-  <section id="p-stickers" hidden>
+  <!-- MY LADDER + KINDS EXPLORER -->
+  <section id="p-ladder" hidden>
+    <div id="ladder"></div>
     <div class="card" id="kindsCard"></div>
-    <div class="card">
-      <h2>🏅 My Monster Stickers</h2>
-      <div class="hint" style="background:#f6f0ff">Climb the ladder and try new kinds of books to unlock monsters. Tap a monster to stick it on your monster's wall!</div>
-      <div class="stickers" id="album"></div>
-    </div>
   </section>
 
   <!-- SHOP -->
   <section id="p-shop" hidden>
-    <div class="hint">Spend your coins on outfits and goodies for your monster! Read more books to earn more coins. 🪙</div>
+    <div class="hint">Spend your coins on furniture for your library! Read more books to earn more coins. 🪙</div>
     <div class="grid" id="shop"></div>
   </section>
 
@@ -312,60 +319,46 @@ const GICON = Object.fromEntries(GENRES);
 const COLORS = ['#ef476f','#f78c40','#e6a800','#06b58a','#118ab2','#7b5cd6','#ff7eb6','#8d6e63'];
 const AVATARS = ['👾','👻','🤖','🐙','🦖','👽','🧟','🦑'];
 const SAYS = ['Nom nom nom! Feed me a book!', 'Burp! That last book was yummy.', 'Psst… the Library monsters are hungry for stories!', 'Roar! Which book is next?', 'Hee hee! Pages taste like pizza!', 'I\'m a monster who loves to read. Wanna read with me?'];
-// Stickers: ladder rungs unlock "r<n>", reading a new kind unlocks "k:<kind>"
-const STICKERS = [
-  { id: 'r1',  em: '🐛', name: 'Baby Grub',      how: 'Read 1 book' },
-  { id: 'r3',  em: '👻', name: 'Boo Buddy',      how: 'Read 3 books' },
-  { id: 'r5',  em: '🦖', name: 'Stompy Rex',     how: 'Read 5 books' },
-  { id: 'r10', em: '🤖', name: 'Robo Munch',     how: 'Read 10 books' },
-  { id: 'r15', em: '🦑', name: 'Squiddy',        how: 'Read 15 books' },
-  { id: 'r20', em: '👽', name: 'Zorp',           how: 'Read 20 books' },
-  { id: 'r30', em: '🐉', name: 'Fluffy Dragon',  how: 'Read 30 books' },
-  { id: 'r50', em: '👑', name: 'Monster King',   how: 'Read 50 books' },
-  { id: 'k:Animals',     em: '🦦', name: 'Otterbeast',      how: 'Read an Animals book' },
-  { id: 'k:Fantasy',     em: '🦄', name: 'Sparkle Beast',   how: 'Read a Fantasy book' },
-  { id: 'k:Funny',       em: '🤪', name: 'Giggler',         how: 'Read a Funny book' },
-  { id: 'k:Adventure',   em: '🦎', name: 'Gecko Explorer',  how: 'Read an Adventure book' },
-  { id: 'k:Science',     em: '🦠', name: 'Germy Goo',       how: 'Read a Science book' },
-];
 // Kinds Explorer badges: n = different kinds of book read
 const KIND_BADGES = [
   { n: 2, em: '🥉', name: 'Kinds Sampler',   bonus: 15 },
   { n: 4, em: '🥈', name: 'Kinds Traveller', bonus: 30 },
   { n: 5, em: '🥇', name: 'Kinds Champion',  bonus: 60 },
 ];
-const BONUS_RATE = 3;   // coins for rating a book
+const SHELF_SIZE = 6;
 const BONUS_REC = 2;    // coins for recommending a book to a friend for the first time
 
-// Mascot accessories. Each slot holds one item at a time; x/y/s = centre position (% of the stage) and size (px).
-const SLOTS = { head: ['Hats', 50, 13, 72], face: ['Glasses', 50, 44, 90], neck: ['Neck', 50, 73, 58], hand: ['In hand', 88, 66, 64], feet: ['Shoes', 0, 93, 46], back: ['On my back', 50, 52, 300] };
-const ACC = [
-  { id:'tophat',  slot:'head', em:'🎩', name:'Top Hat',          cost:35 },
-  { id:'crown',   slot:'head', em:'👑', name:'Monster Crown',    cost:100 },
-  { id:'cap',     slot:'head', em:'🧢', name:'Cool Cap',         cost:25 },
-  { id:'grad',    slot:'head', em:'🎓', name:'Smarty Cap',       cost:40 },
-  { id:'bow',     slot:'head', em:'🎀', name:'Fancy Bow',        cost:20 },
-  { id:'shades',  slot:'face', em:'🕶️', name:'Cool Shades',      cost:30 },
-  { id:'specs',   slot:'face', em:'👓', name:'Reading Glasses',  cost:25 },
-  { id:'goggles', slot:'face', em:'🥽', name:'Goofy Goggles',    cost:35 },
-  { id:'scarf',   slot:'neck', em:'🧣', name:'Stripy Scarf',     cost:30 },
-  { id:'medal',   slot:'neck', em:'🏅', name:'Gold Medal',       cost:45 },
-  { id:'beads',   slot:'neck', em:'📿', name:'Bead Necklace',    cost:20 },
-  { id:'balloon', slot:'hand', em:'🎈', name:'Balloon',          cost:20 },
-  { id:'pizza',   slot:'hand', em:'🍕', name:'Pizza Slice',      cost:25 },
-  { id:'icecream',slot:'hand', em:'🍦', name:'Ice Cream',        cost:25 },
-  { id:'book',    slot:'hand', em:'📖', name:'Story Book',       cost:30 },
-  { id:'wand',    slot:'hand', em:'🪄', name:'Magic Wand',       cost:50 },
-  { id:'sneakers',slot:'feet', em:'👟', name:'Zoomy Sneakers',   cost:30 },
-  { id:'boots',   slot:'feet', em:'🥾', name:'Stompy Boots',     cost:35 },
-  { id:'flips',   slot:'feet', em:'🩴', name:'Flip Flops',       cost:20 },
-  { id:'pack',    slot:'back', em:'🎒', name:'Snack Backpack',   cost:35, pos: [80, 60, 96] },
-  { id:'wings',   slot:'back', em:'🦇', name:'Bat Wings',        cost:60 },
+// Library furniture. kind: shelf (stocks books), wall (hangs up top), floor (sits on the floor)
+const SHOP = [
+  { id:'shelf',  kind:'shelf', em:'📚', name:'Monster Bookshelf', ds:'Holds ' + SHELF_SIZE + ' more books' },
+  { id:'window', kind:'wall',  em:'🪟', name:'Peek-a-boo Window', ds:'Monsters peek in!', cost:40 },
+  { id:'clock',  kind:'wall',  em:'🕰️', name:'Tick-Tock Clock',   ds:'Time for a story!', cost:25 },
+  { id:'art',    kind:'wall',  em:'🖼️', name:'Monster Portrait',  ds:'Very handsome', cost:30 },
+  { id:'rainbow',kind:'wall',  em:'🌈', name:'Slime Rainbow',     ds:'Drippy and bright', cost:55 },
+  { id:'stars',  kind:'wall',  em:'🕸️', name:'Spooky Cobweb',     ds:'Spiders welcome', cost:45 },
+  { id:'plant',  kind:'floor', em:'🪴', name:'Grumpy Plant',      ds:'It growls when you read', cost:25 },
+  { id:'lamp',   kind:'floor', em:'👁️', name:'Eyeball Lamp',      ds:'It watches you read', cost:20 },
+  { id:'teddy',  kind:'floor', em:'🧸', name:'Snuggle Monster',   ds:'A friend to read with', cost:30 },
+  { id:'globe',  kind:'floor', em:'🌍', name:'Monster Map Globe', ds:'Find where monsters live', cost:35 },
+  { id:'fish',   kind:'floor', em:'🐠', name:'Googly Fish',       ds:'Blub blub', cost:40 },
+  { id:'sofa',   kind:'floor', em:'🛋️', name:'Squishy Sofa',      ds:'Eats snacks you drop', cost:50 },
+  { id:'cat',    kind:'floor', em:'🐈‍⬛', name:'Spooky Cat',        ds:'Purrs in the dark', cost:60 },
+  { id:'owl',    kind:'floor', em:'🦉', name:'Night Owl',         ds:'Hoo loves spooky books?', cost:70 },
+  { id:'trophy', kind:'floor', em:'🏆', name:'Golden Trophy',     ds:'For a super reader', cost:100 },
 ];
-const MCOLORS = ['#7bd35a', '#ff8c42', '#b07cff', '#4cc9f0', '#ff6fa5', '#ffd23f'];
-const POKES = ['Burp!', 'Hee hee, that tickles!', 'Nom nom nom!', 'Boing!', 'Roar! (a tiny one)', 'Is it snack time?'];
-// Items bought before the mascot update, so they can be refunded once (shelf cost 30, 50, 70… each)
-const OLD_COST = { window: 40, clock: 25, art: 30, rainbow: 55, stars: 45, plant: 25, lamp: 20, teddy: 30, globe: 35, fish: 40, sofa: 50, cat: 60, owl: 70, trophy: 100 };
+// Mascot accessories from the short-lived mascot version, only so they can be refunded once
+const OLD_ACC = { tophat: 35, crown: 100, cap: 25, grad: 40, bow: 20, shades: 30, specs: 25, goggles: 35, scarf: 30, medal: 45, beads: 20, balloon: 20, pizza: 25, icecream: 25, book: 30, wand: 50, sneakers: 30, boots: 35, flips: 20, pack: 35, wings: 60 };
+
+// "Books to try next": hand-picked read-aloud and early-reader titles per kind, linked to a National Library Board (Singapore) catalogue search.
+// These are searches, so NLB may hold them in different editions or not at all.
+const NLB = 'https://catalogue.nlb.gov.sg/search?query=';
+const PICKS = {
+  Animals:   [['Giraffes Can\'t Dance', 'Giles Andreae'], ['The Tiger Who Came to Tea', 'Judith Kerr'], ['Owl Babies', 'Martin Waddell'], ['Elmer', 'David McKee'], ['Superworm', 'Julia Donaldson'], ['The Very Hungry Caterpillar', 'Eric Carle'], ['Charlotte\'s Web', 'E. B. White']],
+  Fantasy:   [['Room on the Broom', 'Julia Donaldson'], ['Zog', 'Julia Donaldson'], ['The Worst Witch', 'Jill Murphy'], ['Rainbow Magic', 'Daisy Meadows'], ['Dragon Masters', 'Tracey West'], ['The Princess in Black', 'Shannon Hale'], ['The Magic Faraway Tree', 'Enid Blyton']],
+  Funny:     [['Captain Underpants', 'Dav Pilkey'], ['Dog Man', 'Dav Pilkey'], ['The Day the Crayons Quit', 'Drew Daywalt'], ['The Bad Guys', 'Aaron Blabey'], ['Horrid Henry', 'Francesca Simon'], ['Elephant & Piggie', 'Mo Willems'], ['Mr Gum', 'Andy Stanton']],
+  Adventure: [['Magic Tree House', 'Mary Pope Osborne'], ['Sherlock Sam', 'Adan Jimenez'], ['We\'re Going on a Bear Hunt', 'Michael Rosen'], ['Geronimo Stilton', 'Geronimo Stilton'], ['Flat Stanley', 'Jeff Brown'], ['Where the Wild Things Are', 'Maurice Sendak'], ['Pippi Longstocking', 'Astrid Lindgren']],
+  Science:   [['Ada Twist, Scientist', 'Andrea Beaty'], ['Rosie Revere, Engineer', 'Andrea Beaty'], ['The Magic School Bus', 'Joanna Cole'], ['How to Catch a Star', 'Oliver Jeffers'], ['The Darkest Dark', 'Chris Hadfield'], ['Iggy Peck, Architect', 'Andrea Beaty'], ['Professor Astro Cat\'s Frontiers of Space', 'Dominic Walliman']],
+};
 
 // Reading ladder: n = books read to reach the rung, bonus = coins for reaching it
 const LADDER = [
@@ -382,18 +375,20 @@ const LADDER = [
 const DEMO = new URLSearchParams(location.search).has('demo');   // sample data, never saved
 const KEY = 'readingAdventure';
 
-function blank() { return { books: [], friends: [], recs: [], owned: {}, worn: {}, mascot: { name: 'Munchy', color: MCOLORS[0] }, earned: 0, spent: 0, rungs: [], kinds: [], kindBadges: [], placed: [] }; }
+function blank() { return { books: [], friends: [], recs: [], owned: { shelf: 1 }, earned: 0, spent: 0, rungs: [], kinds: [], kindBadges: [] }; }
 function demoData() {
-  const mk = (i, title, author, pages, genre, rating, color, note) =>
-    ({ id: 'd' + i, title, author, pages, genre, rating, color, note, bonus: true, date: '2026-11-0' + i });
+  const mk = (i, title, author, pages, genre, color, note) => ({ id: 'd' + i, title, author, pages, genre, color, note, date: '2026-11-0' + i });
   return {
     books: [
-      mk(3, 'The Gruffalo', 'Julia Donaldson', 32, 'Animals', 5, COLORS[3], 'The mouse is so clever!'),
-      mk(2, 'Dragon Masters', 'Tracey West', 80, 'Fantasy', 4, COLORS[0], ''),
-      mk(1, 'Captain Underpants', 'Dav Pilkey', 120, 'Funny', 5, COLORS[2], 'I laughed so much.'),
+      mk(5, 'Ada Twist, Scientist', 'Andrea Beaty', 40, 'Science', COLORS[4], 'She asks so many questions!'),
+      mk(4, 'Elmer', 'David McKee', 32, 'Animals', COLORS[1], ''),
+      mk(3, 'The Gruffalo', 'Julia Donaldson', 32, 'Animals', COLORS[3], 'The mouse is so clever!'),
+      mk(2, 'Dragon Masters', 'Tracey West', 80, 'Fantasy', COLORS[0], ''),
+      mk(1, 'Captain Underpants', 'Dav Pilkey', 120, 'Funny', COLORS[2], 'I laughed so much.'),
     ],
     friends: [{ id: 'f1', name: 'Mia', avatar: '👻', likes: ['Animals', 'Fantasy'] }],
-    recs: [], owned: { tophat: 1, shades: 1 }, worn: { head: 'tophat', face: 'shades' }, mascot: { name: 'Munchy', color: MCOLORS[0] }, earned: 200, spent: 65, rungs: [1, 3], kinds: ['Animals', 'Fantasy', 'Funny'], kindBadges: [2], placed: ['r1'],
+    recs: [], owned: { shelf: 2, window: 1, clock: 1, plant: 1, lamp: 1, sofa: 1 }, earned: 320, spent: 190,
+    rungs: [1, 3, 5], kinds: ['Animals', 'Fantasy', 'Funny', 'Science'], kindBadges: [2, 4],
   };
 }
 // Older saves had 9 kinds. Fold the removed ones into the 5 that are left.
@@ -401,26 +396,56 @@ const KIND_MAP = { 'Fairy tales': 'Fantasy', 'Mystery': 'Adventure', 'Space': 'S
 function migrate(d) {
   const fix = g => GICON[g] ? g : (KIND_MAP[g] || '');
   const uniq = a => [...new Set((a || []).map(fix).filter(Boolean))];
-  (d.books || []).forEach(b => { b.genre = fix(b.genre); });
-  (d.friends || []).forEach(f => { f.likes = uniq(f.likes); });
-  d.kinds = uniq(d.kinds);
+  const objs = v => (Array.isArray(v) ? v : []).filter(x => x && typeof x === 'object');
+  objs(d.books).forEach(b => { b.genre = fix(b.genre); });
+  objs(d.friends).forEach(f => { f.likes = uniq(Array.isArray(f.likes) ? f.likes : []); });
+  d.kinds = uniq(Array.isArray(d.kinds) ? d.kinds : []);
   d.kindBadges = KIND_BADGES.filter(k => d.kinds.length >= k.n).map(k => k.n);   // already-reached badges count as claimed
-  // Library furniture became mascot accessories: refund what was spent on it, once.
-  const old = d.owned || {};
-  if ('shelf' in old || Object.keys(old).some(k => k in OLD_COST)) {
+  // A save from the short-lived mascot version: give back the coins spent on accessories, once.
+  if (d.mascot || d.worn) {
+    const had = d.owned && typeof d.owned === 'object' ? d.owned : {};
     let refund = 0;
-    for (let i = 1; i < (old.shelf || 1); i++) refund += 30 + 20 * (i - 1);
-    Object.keys(old).forEach(k => { if (OLD_COST[k]) refund += OLD_COST[k]; });
-    d.spent = Math.max(0, (d.spent || 0) - refund);
-    d.owned = {}; d.worn = {};
+    Object.keys(had).forEach(k => { if (OLD_ACC[k]) refund += OLD_ACC[k]; });
+    d.spent = Math.max(0, (+d.spent || 0) - refund);
+    d.owned = {}; delete d.mascot; delete d.worn;
   }
-  d.owned = d.owned || {}; d.worn = d.worn || {};
-  d.mascot = Object.assign({ name: 'Munchy', color: MCOLORS[0] }, d.mascot);
   return d;
+}
+// Rebuild state from scratch with strict types, so a hand-edited or hostile backup (or storage) can't smuggle markup, huge
+// numbers or unknown ids into the page. Every value is checked against the app's own lists.
+const LEGACY_AVATARS = ['🦊', '🐼', '🐸', '🦄', '🐯', '🐰', '🦁'];   // from an early version
+function clean(d) {
+  const str = (v, n) => (typeof v === 'string' || typeof v === 'number' ? String(v) : '').slice(0, n);
+  const num = (v, hi) => Math.min(hi, Math.max(0, Math.round(+v) || 0));
+  const id = (v, i, p) => str(v, 40).replace(/[^\w.-]/g, '') || p + i;      // ids end up inside HTML attributes
+  const arr = v => (Array.isArray(v) ? v : []);
+  const obj = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : {});
+  const pick = (list, v) => arr(v).filter(x => list.includes(x)).filter((x, i, a) => a.indexOf(x) === i);
+  const out = blank();
+  out.books = arr(d.books).slice(0, 1000).filter(b => b && typeof b === 'object').map((b, i) => ({
+    id: id(b.id, i, 'b'), title: str(b.title, 200), author: str(b.author, 120), pages: num(b.pages, 999),
+    genre: GICON[b.genre] ? b.genre : '', color: COLORS.includes(b.color) ? b.color : COLORS[0],
+    note: str(b.note, 500), date: str(b.date, 10),
+  }));
+  out.friends = arr(d.friends).slice(0, 100).filter(f => f && typeof f === 'object').map((f, i) => ({
+    id: id(f.id, i, 'f'), name: str(f.name, 40), likes: pick(GENRES.map(g => g[0]), f.likes),
+    avatar: AVATARS.concat(LEGACY_AVATARS).includes(f.avatar) ? f.avatar : AVATARS[0],
+  }));
+  out.recs = arr(d.recs).slice(0, 5000).filter(r => r && typeof r === 'object').map(r => ({ b: id(r.b, 0, 'b'), f: id(r.f, 0, 'f') }));
+  const owned = obj(d.owned);
+  SHOP.forEach(it => {
+    if (it.kind === 'shelf') out.owned.shelf = Math.max(1, num(owned.shelf, 20));
+    else if (owned[it.id]) out.owned[it.id] = 1;
+  });
+  out.earned = num(d.earned, 1e7); out.spent = num(d.spent, 1e7);
+  out.rungs = arr(d.rungs).filter(n => LADDER.some(r => r.n === n)).filter((x, i, a) => a.indexOf(x) === i);
+  out.kinds = pick(GENRES.map(g => g[0]), d.kinds);
+  out.kindBadges = arr(d.kindBadges).filter(n => KIND_BADGES.some(k => k.n === n)).filter((x, i, a) => a.indexOf(x) === i);
+  return out;
 }
 function load() {
   if (DEMO) return demoData();
-  try { const r = localStorage.getItem(KEY); if (r) return Object.assign(blank(), migrate(JSON.parse(r))); } catch (e) {}
+  try { const r = localStorage.getItem(KEY); if (r) return clean(migrate(JSON.parse(r))); } catch (e) {}
   return blank();
 }
 function save() {
@@ -436,12 +461,13 @@ function backup() {
   toast('Backup saved to your Downloads! 💾');
 }
 function restore(file) {
+  if (file.size > 2e6) { toast('That file is too big to be a backup.'); return; }
   const r = new FileReader();
   r.onload = () => {
     try {
       const d = JSON.parse(r.result);
       if (!d || !Array.isArray(d.books) || !Array.isArray(d.friends)) throw new Error('bad');
-      S = Object.assign(blank(), migrate(d)); render(); toast('Backup loaded! 🎉');
+      S = clean(migrate(d)); render(); toast('Backup loaded! 🎉');
     } catch (e) { toast('That file is not a Monster Club backup.'); }
   };
   r.readAsText(file);
@@ -449,17 +475,18 @@ function restore(file) {
 
 let S = load();
 let tab = 'books';
-let draft = { genre: '', color: COLORS[5], rating: 0 };
+let draft = { genre: '' };
 let fdraft = { avatar: AVATARS[0], likes: [] };
 let confirmId = '';   // item waiting for a second tap to delete
 let openNote = '';    // "bookId|friendId" whose letter is showing
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
 const balance = () => S.earned - S.spent;
-const coinsFor = (pages, rated) => Math.max(10, Math.round((pages || 0) / 2)) + (rated ? BONUS_RATE : 0);
+const coinsFor = pages => Math.max(10, Math.round((pages || 0) / 2));
 const hash = s => [...String(s)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const shelfCost = () => 30 + 20 * ((S.owned.shelf || 1) - 1);
+const costOf = it => it.kind === 'shelf' ? shelfCost() : it.cost;
 
 /* ---------- little helpers ---------- */
 function toast(msg) {
@@ -479,22 +506,14 @@ function celebrate(text) {
     document.body.appendChild(c); setTimeout(() => c.remove(), 1900);
   }
 }
-function starButtons(n, act, id) {
-  let h = '';
-  for (let i = 1; i <= 5; i++)
-    h += '<button type="button" class="star' + (i <= n ? ' on' : '') + '" data-act="' + act + '" data-id="' + esc(id || '') + '" data-n="' + i + '" aria-label="' + i + ' star' + (i > 1 ? 's' : '') + '">★</button>';
-  return h;
-}
-function chipHtml(act, list, on, multi) {
+function chipHtml(act, list, on) {
   return list.map(([g, e]) => '<button type="button" class="chip' + (on.includes(g) ? ' on' : '') + '" data-act="' + act + '" data-id="' + esc(g) + '" aria-pressed="' + on.includes(g) + '">' + e + ' ' + g + '</button>').join('');
 }
 
 /* ---------- renderers ---------- */
 function renderForm() {
   $('f-genres').innerHTML = chipHtml('pickGenre', GENRES, [draft.genre]);
-  $('f-colors').innerHTML = COLORS.map(c => '<button type="button" class="swatch' + (c === draft.color ? ' on' : '') + '" style="background:' + c + '" data-act="pickColor" data-id="' + c + '" aria-label="colour ' + c + '"></button>').join('');
-  $('f-stars').innerHTML = starButtons(draft.rating, 'draftRate');
-  $('f-preview').textContent = '🪙 This book is worth ' + coinsFor(+$('f-pages').value, draft.rating > 0) + ' coins' + (draft.rating ? '' : ' (+' + BONUS_RATE + ' more if you rate it!)');
+  $('f-preview').textContent = '🪙 This book is worth ' + coinsFor(+$('f-pages').value) + ' coins';
 }
 function renderList() {
   if (!S.books.length) { $('list').innerHTML = '<div class="empty">No books yet. Add the first one you read! 📕</div>'; return; }
@@ -505,7 +524,6 @@ function renderList() {
       '<div class="info"><div class="t">' + esc(b.title) + '</div>' +
       '<div class="meta">' + (b.author ? 'by ' + esc(b.author) + ' · ' : '') + (b.pages ? b.pages + ' pages' : '') + '</div>' +
       (b.genre ? '<span class="tag">' + GICON[b.genre] + ' ' + esc(b.genre) + '</span> ' : '') +
-      '<div>' + starButtons(b.rating, 'rate', b.id) + '</div>' +
       (b.note ? '<div class="note">“' + esc(b.note) + '”</div>' : '') +
       '</div>' +
       '<div>' + (sure
@@ -514,54 +532,50 @@ function renderList() {
       '</div></div>';
   }).join('');
 }
-function monsterSvg() {
-  return '<svg viewBox="0 0 300 300" role="img" aria-label="' + esc(S.mascot.name) + ' the monster" style="--mc:' + esc(S.mascot.color) + '">' +
-    '<g style="fill:var(--mc)">' +
-    '<ellipse cx="112" cy="272" rx="32" ry="15" style="filter:brightness(.85)"/><ellipse cx="188" cy="272" rx="32" ry="15" style="filter:brightness(.85)"/>' +
-    '<ellipse cx="46" cy="196" rx="22" ry="36" transform="rotate(28 46 196)" style="filter:brightness(.9)"/><ellipse cx="254" cy="196" rx="22" ry="36" transform="rotate(-28 254 196)" style="filter:brightness(.9)"/>' +
-    '<path d="M150 52C62 52 40 140 48 208C54 260 100 282 150 282C200 282 246 260 252 208C260 140 238 52 150 52Z"/></g>' +
-    '<path d="M96 80L80 30L128 64Z" fill="#f6e7b8"/><path d="M204 80L220 30L172 64Z" fill="#f6e7b8"/>' +
-    '<ellipse cx="150" cy="226" rx="64" ry="46" fill="#fff" opacity=".28"/>' +
-    '<circle cx="80" cy="190" r="9" fill="#000" opacity=".1"/><circle cx="224" cy="160" r="12" fill="#000" opacity=".1"/><circle cx="196" cy="246" r="8" fill="#000" opacity=".1"/>' +
-    '<circle cx="112" cy="130" r="25" fill="#fff"/><circle cx="188" cy="130" r="25" fill="#fff"/>' +
-    '<circle cx="117" cy="134" r="11" fill="#2d1b4e"/><circle cx="183" cy="134" r="11" fill="#2d1b4e"/>' +
-    '<circle cx="121" cy="129" r="4" fill="#fff"/><circle cx="187" cy="129" r="4" fill="#fff"/>' +
-    '<path d="M100 178Q150 238 200 178Q150 190 100 178Z" fill="#5a1530"/>' +
-    '<path d="M116 182L125 198L134 186Z M166 186L175 198L184 182Z" fill="#fff"/>' +
-    '<ellipse cx="150" cy="209" rx="18" ry="9" fill="#ff7a93"/></svg>';
+// For her three most recent books: up to 3 titles of the same kind she hasn't read, each linked to an NLB search.
+function renderNext() {
+  const head = '<h2>🔎 Books to try next</h2>';
+  const recent = S.books.slice(0, 3);
+  if (!recent.length) { $('next').innerHTML = head + '<div class="empty">Add a book you read and I will find more books you might love! 📖</div>'; return; }
+  const read = new Set(S.books.map(b => b.title.trim().toLowerCase())), used = new Set();
+  const link = (q, label, cls) => '<a class="small ' + (cls || '') + '" href="' + NLB + encodeURIComponent(q) + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+  $('next').innerHTML = head +
+    '<div style="color:var(--muted);font-size:14px">Picked from the books you read most recently. Tap "Find at NLB" to look for it at the National Library Board. Ask a grown-up to help! 📚</div>' +
+    recent.map(b => {
+      const pool = (PICKS[b.genre] || Object.values(PICKS).flat()).filter(([t]) => !read.has(t.toLowerCase()) && !used.has(t));
+      const s = pool.length ? hash(b.id) % pool.length : 0;
+      const picks = pool.slice(s).concat(pool.slice(0, s)).slice(0, 3);
+      picks.forEach(([t]) => used.add(t));
+      return '<div class="try"><b>Because you read “' + esc(b.title) + '”</b>' +
+        picks.map(([t, a]) => '<div class="sug"><div class="why"><b>' + esc(t) + '</b><small>' + esc(a) + '</small></div>' + link(t + ' ' + a, 'Find at NLB ↗', 'go') + '</div>').join('') +
+        (b.author ? '<div style="margin-top:8px">' + link(b.author, 'More by ' + esc(b.author) + ' at NLB ↗') + '</div>' : '') + '</div>';
+    }).join('');
 }
-function accHtml(it) {
-  const [, x, y, s] = SLOTS[it.slot], p = it.pos || [x, y, s];
-  const one = (px, f) => '<span class="acc' + (it.slot === 'back' ? ' back' : '') + (f ? ' flip' : '') + '" style="left:' + px + '%;top:' + p[1] + '%;font-size:' + p[2] + 'px">' + it.em + '</span>';
-  return it.slot === 'feet' ? one(37, false) + one(63, true) : one(p[0], false);
-}
-function renderMascot() {
-  const rated = S.books.filter(b => b.rating);
-  const avg = rated.length ? (rated.reduce((a, b) => a + b.rating, 0) / rated.length).toFixed(1) : '–';
+function renderRoom() {
+  const books = S.books.slice().reverse();          // oldest first, so new books go on the end
+  const n = S.owned.shelf || 1;
   const count = {}; S.books.forEach(b => { if (b.genre) count[b.genre] = (count[b.genre] || 0) + 1; });
   const fav = Object.keys(count).sort((a, b) => count[b] - count[a])[0];
-  $('stats').innerHTML = '<span class="tag">📚 ' + S.books.length + ' books</span><span class="tag">⭐ ' + avg + ' average</span>' +
+  $('stats').innerHTML = '<span class="tag">📚 ' + S.books.length + ' book' + (S.books.length === 1 ? '' : 's') + '</span>' +
     (fav ? '<span class="tag">' + GICON[fav] + ' Favourite: ' + fav + '</span>' : '');
 
-  const worn = ACC.filter(it => S.worn[it.slot] === it.id);
-  $('room').innerHTML = '<div class="room"><div class="wall"><div class="walldeco">' + placedHtml() + '</div>' +
-    '<div class="stage"><button class="mon" data-act="poke" aria-label="Poke ' + esc(S.mascot.name) + '">' +
-    worn.filter(it => it.slot === 'back').map(accHtml).join('') + monsterSvg() + worn.filter(it => it.slot !== 'back').map(accHtml).join('') +
-    '</button></div><div class="mname">' + esc(S.mascot.name) + '</div></div><div class="floor"></div></div>';
-
-  $('mcolors').innerHTML = MCOLORS.map(c => '<button type="button" class="swatch' + (c === S.mascot.color ? ' on' : '') + '" style="background:' + c + '" data-act="mcolor" data-id="' + c + '" aria-label="colour ' + c + '"></button>').join('');
-  if (document.activeElement !== $('m-name')) $('m-name').value = S.mascot.name;
-
-  $('wardrobe').innerHTML = Object.keys(SLOTS).map(slot => {
-    const mine = ACC.filter(it => it.slot === slot && S.owned[it.id]);
-    return '<div class="slot"><b>' + SLOTS[slot][0] + '</b><div class="chips">' + (mine.length
-      ? mine.map(it => '<button type="button" class="chip' + (S.worn[slot] === it.id ? ' on' : '') + '" data-act="wear" data-id="' + it.id + '" aria-pressed="' + (S.worn[slot] === it.id) + '"><span class="em">' + it.em + '</span> ' + it.name + '</button>').join('')
-      : '<span style="color:var(--muted);font-size:14px">Nothing yet. Visit the Shop! 🛍️</span>') + '</div></div>';
-  }).join('');
-  $('ladder').innerHTML = ladderHtml();
+  let shelves = '';
+  for (let i = 0; i < n; i++) {
+    shelves += '<div class="shelf">' + books.slice(i * SHELF_SIZE, (i + 1) * SHELF_SIZE).map(b => {
+      const h = hash(b.id + b.title);
+      return '<button class="spine" data-act="spine" data-id="' + b.id + '" style="background-color:' + esc(b.color) + ';height:' + (74 + h % 34) + 'px;width:' + (28 + h % 12) + 'px" aria-label="' + esc(b.title) + '">' + esc(b.title) + '</button>';
+    }).join('') + '</div>';
+  }
+  const extra = books.length - n * SHELF_SIZE;
+  const deco = k => SHOP.filter(it => it.kind === k && S.owned[it.id]).map(it => '<span title="' + it.name + '">' + it.em + '</span>').join('');
+  $('room').innerHTML =
+    (extra > 0 ? '<div class="hint">📦 ' + extra + ' book' + (extra > 1 ? 's are' : ' is') + ' waiting in a box. Buy another bookshelf in the Shop!</div>' : '') +
+    (!books.length ? '<div class="hint">Your shelves are empty. Finish a book and it will appear here! 📖</div>' : '') +
+    '<div class="room"><div class="wall"><div class="walldeco">' + deco('wall') + '</div><div class="shelves">' + shelves + '</div></div>' +
+    '<div class="floor">' + (deco('floor') || '<span style="font-size:16px;font-weight:700;color:#fff">Buy things in the Shop to fill your floor!</span>') + '</div></div>';
 }
 // Total books read = books on the list; removing one never takes a rung (or its coins) away.
-function ladderHtml() {
+function renderLadder() {
   const count = S.books.length;
   const reached = LADDER.filter(r => count >= r.n);
   const top = reached.length - 1, next = LADDER[reached.length];
@@ -572,10 +586,19 @@ function ladderHtml() {
       '<span class="bn">' + (done ? '✅' : '🪙 +' + r.bonus) + '</span>' + (here ? '<span class="climber" title="You are here!">👾</span>' : '') + '</div>';
   }).reverse().join('');
   const start = !reached.length ? '<div class="rung here" style="opacity:1;border-bottom-color:transparent"><span class="ic">👾</span><span class="nm">Start here!<small>Finish a book to climb</small></span></div>' : '';
-  return '<div class="card" style="margin-top:16px"><h2>🪜 My Reading Ladder</h2>' +
+  $('ladder').innerHTML = '<div class="card"><h2>🪜 My Reading Ladder</h2>' +
     '<div style="font-weight:800;margin-bottom:10px">📚 ' + count + ' book' + (count === 1 ? '' : 's') + ' read' +
     (next ? ' · ' + (next.n - count) + ' more to reach ' + next.em + ' ' + next.name + '!' : ' · You reached the top! 🎉') + '</div>' +
     '<div class="ladderwrap"><div class="ladder">' + rows + start + '</div></div></div>';
+
+  const n = S.kinds.length, nb = KIND_BADGES.find(k => n < k.n);
+  $('kindsCard').innerHTML = '<h2>🧭 Kinds Explorer</h2>' +
+    '<div style="font-weight:800">' + n + ' of ' + GENRES.length + ' kinds of books explored' +
+    (nb ? ' · try ' + (nb.n - n) + ' more kind' + (nb.n - n > 1 ? 's' : '') + ' for ' + nb.em + ' ' + nb.name + '! (🪙 +' + nb.bonus + ')' : ' · You explored them all! 🎉') + '</div>' +
+    '<div class="kinds">' + GENRES.map(([g, e]) => S.kinds.includes(g)
+      ? '<div class="kind got"><span class="em">' + e + '</span>' + g + ' ✅</div>'
+      : '<div class="kind"><span class="em">❓</span>' + g + '</div>').join('') + '</div>' +
+    '<div class="badges">' + KIND_BADGES.map(k => '<span class="badge' + (S.kindBadges.includes(k.n) ? ' got' : '') + '">' + (S.kindBadges.includes(k.n) ? k.em : '🔒') + ' ' + k.name + ' (' + k.n + ' kinds)</span>').join('') + '</div>';
 }
 function checkRungs() {
   let bonus = 0, last = null;
@@ -595,42 +618,23 @@ function checkKinds() {
   S.earned += bonus;
   return { bonus, last };
 }
-const stickerOpen = s => s.id[0] === 'r' ? S.rungs.includes(+s.id.slice(1)) : S.kinds.includes(s.id.slice(2));
-function placedHtml() {
-  return STICKERS.filter(s => S.placed.includes(s.id) && stickerOpen(s)).map(s => '<span class="wob" title="' + s.name + '">' + s.em + '</span>').join('');
-}
-function renderStickers() {
-  const n = S.kinds.length, next = KIND_BADGES.find(k => n < k.n);
-  $('kindsCard').innerHTML = '<h2>🧭 Kinds Explorer</h2>' +
-    '<div style="font-weight:800">' + n + ' of ' + GENRES.length + ' kinds of books explored' +
-    (next ? ' · try ' + (next.n - n) + ' more kind' + (next.n - n > 1 ? 's' : '') + ' for ' + next.em + ' ' + next.name + '! (🪙 +' + next.bonus + ')' : ' · You explored them all! 🎉') + '</div>' +
-    '<div class="kinds">' + GENRES.map(([g, e]) => S.kinds.includes(g)
-      ? '<div class="kind got"><span class="em">' + e + '</span>' + g + ' ✅</div>'
-      : '<div class="kind"><span class="em">❓</span>' + g + '</div>').join('') + '</div>' +
-    '<div class="badges">' + KIND_BADGES.map(k => '<span class="badge' + (S.kindBadges.includes(k.n) ? ' got' : '') + '">' + (S.kindBadges.includes(k.n) ? k.em : '🔒') + ' ' + k.name + ' (' + k.n + ' kinds)</span>').join('') + '</div>';
-  $('album').innerHTML = STICKERS.map(s => {
-    if (!stickerOpen(s)) return '<div class="sticker lock"><span class="em">❔</span><b>???</b><small>' + s.how + '</small></div>';
-    const on = S.placed.includes(s.id);
-    return '<button class="sticker got' + (on ? ' on' : '') + '" data-act="sticker" data-id="' + s.id + '"><span class="em">' + s.em + '</span><b>' + s.name + '</b><small>' + (on ? 'On my wall ✅' : 'Tap to stick up!') + '</small></button>';
-  }).join('');
-}
 function renderShop() {
-  $('shop').innerHTML = ACC.map(it => {
-    const have = S.owned[it.id];
-    const ok = balance() >= it.cost, cost = it.cost;
-    return '<div class="item' + (have ? ' have' : '') + '"><div class="em">' + it.em + '</div><div class="nm">' + it.name + '</div><div class="ds">' + SLOTS[it.slot][0] + '</div>' +
+  $('shop').innerHTML = SHOP.map(it => {
+    const have = it.kind !== 'shelf' && S.owned[it.id];
+    const cost = costOf(it), ok = balance() >= cost;
+    return '<div class="item' + (have ? ' have' : '') + '"><div class="em">' + it.em + '</div><div class="nm">' + it.name + (it.kind === 'shelf' ? ' ×' + (S.owned.shelf || 1) : '') + '</div><div class="ds">' + it.ds + '</div>' +
       (have ? '<div class="nm" style="color:var(--good)">✅ Got it!</div>'
             : '<button class="buy' + (ok ? '' : ' no') + '" data-act="buy" data-id="' + it.id + '">🪙 ' + cost + '</button>') + '</div>';
   }).join('');
 }
+// Her books that match what a friend likes come first, then the rest (5 at most).
 function suggestions(f) {
-  const rated = S.books.filter(b => b.rating >= 4).sort((a, b) => b.rating - a.rating);
-  const match = rated.filter(b => f.likes.includes(b.genre));
-  return match.map(b => ({ b, match: true })).concat(rated.filter(b => !match.includes(b)).map(b => ({ b, match: false }))).slice(0, 5);
+  const match = S.books.filter(b => f.likes.includes(b.genre));
+  return match.map(b => ({ b, match: true })).concat(S.books.filter(b => !match.includes(b)).map(b => ({ b, match: false }))).slice(0, 5);
 }
 function letter(f, b) {
   const why = f.likes.includes(b.genre) ? 'I know you like ' + b.genre.toLowerCase() + ' books. ' : '';
-  return 'Hi ' + f.name + '!\nI just read "' + b.title + '"' + (b.author ? ' by ' + b.author : '') + '. I gave it ' + b.rating + ' stars (' + stars(b.rating) + ').\n' +
+  return 'Hi ' + f.name + '!\nI just read "' + b.title + '"' + (b.author ? ' by ' + b.author : '') + '.\n' +
     (b.note ? 'I liked it because: ' + b.note + '\n' : '') + why + 'I think you will love it too!';
 }
 function renderFriends() {
@@ -643,13 +647,13 @@ function renderFriends() {
     const rows = list.length ? list.map(({ b, match }) => {
       const key = b.id + '|' + f.id, done = S.recs.some(r => r.b === b.id && r.f === f.id);
       return '<div class="sug"><div class="dot" style="background:' + esc(b.color) + '"></div>' +
-        '<div class="why"><b>' + esc(b.title) + '</b> <span style="color:#e6a800">' + stars(b.rating) + '</span><small>' +
-        (match ? '👍 ' + esc(f.name) + ' likes ' + esc(b.genre.toLowerCase()) + ' books' : 'Not their usual kind, but I loved it!') + '</small></div>' +
+        '<div class="why"><b>' + esc(b.title) + '</b><small>' +
+        (match ? '👍 ' + esc(f.name) + ' likes ' + esc(b.genre.toLowerCase()) + ' books' : 'Not their usual kind, but I enjoyed it!') + '</small></div>' +
         '<button class="small ' + (done ? '' : 'go') + '" data-act="rec" data-id="' + key + '">' + (done ? 'Recommended ✓' : 'Recommend 💌') + '</button>' +
         (openNote === key ? '<div class="letter"><textarea readonly id="note-' + b.id + '-' + f.id + '">' + esc(letter(f, b)) + '</textarea>' +
           '<button class="small" data-act="copy" data-id="' + key + '">📋 Copy my note</button></div>' : '') + '</div>';
-    }).join('') : '<div class="empty">Give a book 4 or 5 stars and it can be recommended here! ⭐</div>';
-    return '<div class="friend"><div class="fhead"><span class="avatar">' + f.avatar + '</span><span class="fname">' + esc(f.name) + '</span>' +
+    }).join('') : '<div class="empty">Add a book you read and it can be recommended here! 📖</div>';
+    return '<div class="friend"><div class="fhead"><span class="avatar">' + esc(f.avatar) + '</span><span class="fname">' + esc(f.name) + '</span>' +
       (sure ? '<button class="small warn" data-act="delFriend" data-id="' + f.id + '">Really remove?</button><button class="small" data-act="nodel">No</button>'
             : '<button class="small" data-act="delFriend" data-id="' + f.id + '" aria-label="Remove ' + esc(f.name) + '">🗑️</button>') + '</div>' +
       '<div style="margin:4px 0">' + (f.likes.length ? f.likes.map(g => '<span class="tag">' + GICON[g] + ' ' + g + '</span> ').join('') : '<span class="meta">No favourites picked yet</span>') + '</div>' + rows + '</div>';
@@ -658,10 +662,10 @@ function renderFriends() {
 function render() {
   $('coins').textContent = '🪙 ' + balance();
   document.querySelectorAll('#tabs button').forEach(b => { const on = b.dataset.id === tab; b.classList.toggle('on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
-  ['books', 'mascot', 'stickers', 'shop', 'friends'].forEach(t => $('p-' + t).hidden = t !== tab);
-  if (tab === 'books') renderList();
-  if (tab === 'stickers') renderStickers();
-  if (tab === 'mascot') renderMascot();
+  ['books', 'library', 'ladder', 'shop', 'friends'].forEach(t => $('p-' + t).hidden = t !== tab);
+  if (tab === 'books') { renderList(); renderNext(); }
+  if (tab === 'library') renderRoom();
+  if (tab === 'ladder') renderLadder();
   if (tab === 'shop') renderShop();
   if (tab === 'friends') renderFriends();
   save();
@@ -670,19 +674,11 @@ function render() {
 /* ---------- actions ---------- */
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-act]'); if (!t) return;
-  const id = t.dataset.id, n = +t.dataset.n;
+  const id = t.dataset.id;
   switch (t.dataset.act) {
     case 'tab': tab = id; confirmId = ''; render(); window.scrollTo(0, 0); break;
     case 'pickGenre': draft.genre = draft.genre === id ? '' : id; renderForm(); break;
-    case 'pickColor': draft.color = id; renderForm(); break;
-    case 'draftRate': draft.rating = n; renderForm(); break;
     case 'addBook': addBook(); break;
-    case 'rate': {
-      const b = S.books.find(x => x.id === id); if (!b) break;
-      b.rating = n;
-      if (!b.bonus) { b.bonus = true; S.earned += BONUS_RATE; celebrate('+' + BONUS_RATE + ' 🪙 for rating!'); }
-      render(); break;
-    }
     case 'del':
       if (confirmId === 'b' + id) { S.books = S.books.filter(b => b.id !== id); S.recs = S.recs.filter(r => r.b !== id); confirmId = ''; }
       else confirmId = 'b' + id;
@@ -692,18 +688,9 @@ document.addEventListener('click', e => {
       else confirmId = 'f' + id;
       render(); break;
     case 'nodel': confirmId = ''; render(); break;
-    case 'wear': { const it = ACC.find(x => x.id === id); if (S.worn[it.slot] === id) delete S.worn[it.slot]; else S.worn[it.slot] = id; render(); break; }
-    case 'mcolor': S.mascot.color = id; render(); break;
-    case 'poke': {
-      t.classList.remove('jump'); void t.offsetWidth; t.classList.add('jump');
-      toast(S.mascot.name + ': ' + POKES[Math.floor(Math.random() * POKES.length)]); break;
-    }
+    case 'spine': { const b = S.books.find(x => x.id === id); if (b) toast('“' + b.title + '”' + (b.author ? ' by ' + b.author : '')); break; }
     case 'backup': backup(); break;
     case 'buy': buy(id); break;
-    case 'sticker': {
-      S.placed = S.placed.includes(id) ? S.placed.filter(x => x !== id) : S.placed.concat(id);
-      render(); toast(S.placed.includes(id) ? 'Stuck on your library wall! 🏰' : 'Peeled off the wall.'); break;
-    }
     case 'pickAvatar': fdraft.avatar = id; renderFriends(); break;
     case 'pickLike': fdraft.likes = fdraft.likes.includes(id) ? fdraft.likes.filter(g => g !== id) : fdraft.likes.concat(id); renderFriends(); break;
     case 'addFriend': addFriend(); break;
@@ -712,7 +699,6 @@ document.addEventListener('click', e => {
   }
 });
 $('f-pages').addEventListener('input', renderForm);
-$('m-name').addEventListener('change', e => { S.mascot.name = e.target.value.trim().slice(0, 16) || 'Munchy'; e.target.value = S.mascot.name; render(); });
 $('restore').addEventListener('change', e => { if (e.target.files[0]) restore(e.target.files[0]); e.target.value = ''; });
 
 function addBook() {
@@ -720,30 +706,27 @@ function addBook() {
   if (!title) { $('f-msg').textContent = 'Please type the name of the book first. 📕'; $('f-title').focus(); return; }
   $('f-msg').textContent = '';
   const pages = Math.max(0, Math.min(999, Math.round(+$('f-pages').value || 0)));
-  const coins = coinsFor(pages, draft.rating > 0);
+  const coins = coinsFor(pages);
   S.books.unshift({
     id: String(Date.now()) + Math.floor(Math.random() * 1000), title, author: $('f-author').value.trim(), pages,
-    genre: draft.genre, color: draft.color, rating: draft.rating, note: $('f-note').value.trim(),
-    bonus: draft.rating > 0, date: new Date().toISOString().slice(0, 10),
+    genre: draft.genre, color: COLORS[Math.floor(Math.random() * COLORS.length)], note: $('f-note').value.trim(),
+    date: new Date().toISOString().slice(0, 10),
   });
   S.earned += coins;
   ['f-title', 'f-author', 'f-pages', 'f-note'].forEach(i => $(i).value = '');
-  draft = { genre: '', color: COLORS[Math.floor(Math.random() * COLORS.length)], rating: 0 };
-  const before = STICKERS.filter(stickerOpen).map(s => s.id);
+  draft = { genre: '' };
   const up = checkRungs(), kb = checkKinds();
-  const fresh = STICKERS.filter(s => stickerOpen(s) && !before.includes(s.id));
   renderForm(); render();
   celebrate('+' + coins + ' 🪙 coins!' +
     (up.last ? '\n' + up.last.em + ' New rung: ' + up.last.name + '! +' + up.bonus + ' 🪙' : '') +
-    (kb.last ? '\n' + kb.last.em + ' Badge: ' + kb.last.name + '! +' + kb.bonus + ' 🪙' : '') +
-    (fresh.length ? '\n🏅 New sticker: ' + fresh.map(s => s.em + ' ' + s.name).join(', ') : ''));
+    (kb.last ? '\n' + kb.last.em + ' Badge: ' + kb.last.name + '! +' + kb.bonus + ' 🪙' : ''));
 }
 function buy(id) {
-  const it = ACC.find(x => x.id === id), cost = it.cost;
-  if (S.owned[id]) return;
+  const it = SHOP.find(x => x.id === id), cost = costOf(it);
+  if (it.kind !== 'shelf' && S.owned[id]) return;
   if (balance() < cost) { toast('You need ' + (cost - balance()) + ' more coins. Read another book! 📖'); return; }
-  S.spent += cost; S.owned[id] = 1; S.worn[it.slot] = id;    // new things are put on straight away
-  render(); celebrate(S.mascot.name + ' is wearing the ' + it.name + '! ' + it.em);
+  S.spent += cost; S.owned[id] = (S.owned[id] || 0) + 1;
+  render(); celebrate('You got ' + (it.kind === 'shelf' ? 'a new bookshelf' : 'a ' + it.name.toLowerCase()) + '! ' + it.em);
 }
 function addFriend() {
   const name = $('fr-name').value.trim();
@@ -769,7 +752,6 @@ function copyNote(key) {
   try { navigator.clipboard.writeText(ta.value).then(ok, fallback); } catch (e) { fallback(); }
 }
 
-draft.color = COLORS[Math.floor(Math.random() * COLORS.length)];
 $('say').textContent = SAYS[Math.floor(Math.random() * SAYS.length)];
 renderForm(); render();
 </script>
