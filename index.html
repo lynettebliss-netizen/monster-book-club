@@ -103,8 +103,7 @@
   .earned { color: var(--gold-ink); font-weight: 800; font-size: 14px; }
   .empty { color: var(--muted); text-align: center; padding: 18px 6px; }
 
-  /* Library room */
-  /* Library room: brick back wall, shaded side walls and ceiling, baseboard, perspective wood floor */
+  /* Mascot room: brick back wall, shaded side walls and ceiling, baseboard, perspective wood floor */
   .room { border-radius: 24px; overflow: hidden; border: 6px solid #6b4220; margin-bottom: 14px; box-shadow: 0 18px 30px -12px #0008, inset 0 0 0 2px #b8803f; }
   .wall {
     padding: 18px 18px 24px; border-bottom: 14px solid #f3e7d6; position: relative;
@@ -114,22 +113,7 @@
     box-shadow: inset 0 26px 30px -16px #000b, inset 28px 0 30px -18px #000a, inset -28px 0 30px -18px #000a;
   }
   .walldeco { display: flex; flex-wrap: wrap; gap: 16px; font-size: 42px; margin-bottom: 14px; min-height: 10px; filter: drop-shadow(3px 6px 4px #0007); }
-  .shelves { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; }
-  .shelf {
-    display: flex; align-items: flex-end; gap: 3px; min-height: 142px; padding: 0 8px;
-    background: linear-gradient(#2e1c0d, #5b3a1d); border: 7px solid #9a6431; border-bottom-width: 15px;
-    border-color: #c28a4a #7a4d22 #5e3a18 #8a5a2b; border-radius: 6px 6px 3px 3px;
-    box-shadow: inset 0 14px 18px -4px #000c, inset 10px 0 10px -6px #0009, inset -10px 0 10px -6px #0009, 0 12px 14px -4px #000b;
-  }
-  .spine {
-    border: 0; border-radius: 3px; color: #fff; font: 700 11px/1 ui-rounded, system-ui, sans-serif; padding: 6px 0;
-    writing-mode: vertical-rl; text-orientation: mixed; overflow: hidden; cursor: pointer;
-    background-image: linear-gradient(90deg, #0000 0, #ffffff40 14%, #0000 38%, #0000 70%, #00000055 100%);
-    box-shadow: inset 2px 0 0 #ffffff55, inset -2px 0 0 #0003, 3px 0 4px #000a; transition: transform .15s;
-    text-shadow: 0 1px 1px #0005;
-  }
-  .spine:hover, .spine:focus-visible { transform: translateY(-6px) rotate(-3deg); }
-  .floor { position: relative; overflow: hidden; background: #6e4220; padding: 22px 18px 12px; min-height: 120px; display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; font-size: 46px; line-height: 1; }
+  .floor { position: relative; overflow: hidden; background: #6e4220; min-height: 64px; }
   .floor::before {
     content: ""; position: absolute; left: -30%; right: -30%; top: 0; bottom: -30px; z-index: 0;
     background:
@@ -138,7 +122,22 @@
       repeating-linear-gradient(90deg, #cf9358 0 62px, #8a5528 62px 65px);
     transform: perspective(240px) rotateX(38deg); transform-origin: 50% 0;
   }
-  .floor > * { position: relative; z-index: 1; filter: drop-shadow(0 8px 3px #000a); }
+  /* Mascot */
+  .mname { text-align: center; font-weight: 900; font-size: 22px; color: #fff; text-shadow: 0 2px 3px #000a; margin-top: 8px; }
+  .stage { position: relative; width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto; }
+  .stage::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: -4px; height: 14px; border-radius: 50%; background: #0006; filter: blur(4px); }
+  .mon { position: absolute; inset: 0; border: 0; background: none; padding: 0; cursor: pointer; z-index: 1; transform-origin: 50% 100%; animation: bob 3s ease-in-out infinite; }
+  .mon.jump { animation: jump .5s ease; }
+  .mon svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
+  .acc { position: absolute; transform: translate(-50%, -50%); line-height: 1; z-index: 2; pointer-events: none; filter: drop-shadow(0 3px 2px #0007); }
+  .acc.back { z-index: 0; }
+  .acc.flip { transform: translate(-50%, -50%) scaleX(-1); }
+  @keyframes bob { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-5px) scale(1.01, .99); } }
+  @keyframes jump { 0% { transform: scale(1, 1); } 30% { transform: translateY(-34px) scale(.94, 1.08); } 60% { transform: translateY(0) scale(1.08, .9); } 100% { transform: scale(1, 1); } }
+  .wardrobe .slot { margin-top: 10px; }
+  .wardrobe .slot > b { display: block; color: var(--muted); font-size: 14px; margin-bottom: 4px; }
+  .chip .em { font-size: 24px; vertical-align: middle; }
+  @media (prefers-reduced-motion: reduce) { .mon { animation: none !important; } }
   .hint { background: #fff; border-radius: 14px; padding: 10px 14px; margin-bottom: 14px; font-weight: 700; }
   .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
   .stats .tag { background: #fff; padding: 4px 12px; font-size: 15px; }
@@ -211,7 +210,7 @@
 
   <nav id="tabs">
     <button data-act="tab" data-id="books"><span>📚</span>My Books</button>
-    <button data-act="tab" data-id="library"><span>🏰</span>Library</button>
+    <button data-act="tab" data-id="mascot"><span>👾</span>My Monster</button>
     <button data-act="tab" data-id="stickers"><span>🏅</span>Stickers</button>
     <button data-act="tab" data-id="shop"><span>🛍️</span>Shop</button>
     <button data-act="tab" data-id="friends"><span>💌</span>Friends</button>
@@ -245,10 +244,23 @@
     </div>
   </section>
 
-  <!-- MY LIBRARY -->
-  <section id="p-library" hidden>
+  <!-- MY MONSTER -->
+  <section id="p-mascot" hidden>
     <div class="stats" id="stats"></div>
     <div id="room"></div>
+    <div class="card wardrobe">
+      <h2>👕 Wardrobe</h2>
+      <div class="meta" style="color:var(--muted);font-size:14px">Tap something to wear it. Tap it again to take it off.</div>
+      <div id="wardrobe"></div>
+    </div>
+    <div class="card">
+      <h2>🎨 About my monster</h2>
+      <label for="m-name">Name</label>
+      <input type="text" id="m-name" maxlength="16" autocomplete="off">
+      <label>Colour</label>
+      <div class="chips" id="mcolors"></div>
+    </div>
+    <div id="ladder"></div>
   </section>
 
   <!-- STICKERS + KINDS EXPLORER -->
@@ -256,14 +268,14 @@
     <div class="card" id="kindsCard"></div>
     <div class="card">
       <h2>🏅 My Monster Stickers</h2>
-      <div class="hint" style="background:#f6f0ff">Climb the ladder and try new kinds of books to unlock monsters. Tap a monster to stick it on your library wall!</div>
+      <div class="hint" style="background:#f6f0ff">Climb the ladder and try new kinds of books to unlock monsters. Tap a monster to stick it on your monster's wall!</div>
       <div class="stickers" id="album"></div>
     </div>
   </section>
 
   <!-- SHOP -->
   <section id="p-shop" hidden>
-    <div class="hint">Spend your coins to make your library cosy! Read more books to earn more coins. 🪙</div>
+    <div class="hint">Spend your coins on outfits and goodies for your monster! Read more books to earn more coins. 🪙</div>
     <div class="grid" id="shop"></div>
   </section>
 
@@ -322,27 +334,38 @@ const KIND_BADGES = [
   { n: 4, em: '🥈', name: 'Kinds Traveller', bonus: 30 },
   { n: 5, em: '🥇', name: 'Kinds Champion',  bonus: 60 },
 ];
-const SHELF_SIZE = 6;
 const BONUS_RATE = 3;   // coins for rating a book
 const BONUS_REC = 2;    // coins for recommending a book to a friend for the first time
-// kind: shelf (stock books), wall (hangs up top), floor (sits on the floor)
-const SHOP = [
-  { id:'shelf',  kind:'shelf', em:'📚', name:'Monster Bookshelf', ds:'Holds ' + SHELF_SIZE + ' more books' },
-  { id:'window', kind:'wall',  em:'🪟', name:'Peek-a-boo Window', ds:'Monsters peek in!', cost:40 },
-  { id:'clock',  kind:'wall',  em:'🕰️', name:'Tick-Tock Clock',   ds:'Time for a story!', cost:25 },
-  { id:'art',    kind:'wall',  em:'🖼️', name:'Monster Portrait',  ds:'Very handsome', cost:30 },
-  { id:'rainbow',kind:'wall',  em:'🌈', name:'Slime Rainbow',     ds:'Drippy and bright', cost:55 },
-  { id:'stars',  kind:'wall',  em:'🕸️', name:'Spooky Cobweb',     ds:'Spiders welcome', cost:45 },
-  { id:'plant',  kind:'floor', em:'🪴', name:'Grumpy Plant',      ds:'It growls when you read', cost:25 },
-  { id:'lamp',   kind:'floor', em:'👁️', name:'Eyeball Lamp',      ds:'It watches you read', cost:20 },
-  { id:'teddy',  kind:'floor', em:'🧸', name:'Snuggle Monster',   ds:'A friend to read with', cost:30 },
-  { id:'globe',  kind:'floor', em:'🌍', name:'Monster Map Globe', ds:'Find where monsters live', cost:35 },
-  { id:'fish',   kind:'floor', em:'🐠', name:'Googly Fish',       ds:'Blub blub', cost:40 },
-  { id:'sofa',   kind:'floor', em:'🛋️', name:'Squishy Sofa',      ds:'Eats snacks you drop', cost:50 },
-  { id:'cat',    kind:'floor', em:'🐈‍⬛', name:'Spooky Cat',        ds:'Purrs in the dark', cost:60 },
-  { id:'owl',    kind:'floor', em:'🦉', name:'Night Owl',         ds:'Hoo loves spooky books?', cost:70 },
-  { id:'trophy', kind:'floor', em:'🏆', name:'Golden Trophy',     ds:'For a super reader', cost:100 },
+
+// Mascot accessories. Each slot holds one item at a time; x/y/s = centre position (% of the stage) and size (px).
+const SLOTS = { head: ['Hats', 50, 13, 72], face: ['Glasses', 50, 44, 90], neck: ['Neck', 50, 73, 58], hand: ['In hand', 88, 66, 64], feet: ['Shoes', 0, 93, 46], back: ['On my back', 50, 52, 300] };
+const ACC = [
+  { id:'tophat',  slot:'head', em:'🎩', name:'Top Hat',          cost:35 },
+  { id:'crown',   slot:'head', em:'👑', name:'Monster Crown',    cost:100 },
+  { id:'cap',     slot:'head', em:'🧢', name:'Cool Cap',         cost:25 },
+  { id:'grad',    slot:'head', em:'🎓', name:'Smarty Cap',       cost:40 },
+  { id:'bow',     slot:'head', em:'🎀', name:'Fancy Bow',        cost:20 },
+  { id:'shades',  slot:'face', em:'🕶️', name:'Cool Shades',      cost:30 },
+  { id:'specs',   slot:'face', em:'👓', name:'Reading Glasses',  cost:25 },
+  { id:'goggles', slot:'face', em:'🥽', name:'Goofy Goggles',    cost:35 },
+  { id:'scarf',   slot:'neck', em:'🧣', name:'Stripy Scarf',     cost:30 },
+  { id:'medal',   slot:'neck', em:'🏅', name:'Gold Medal',       cost:45 },
+  { id:'beads',   slot:'neck', em:'📿', name:'Bead Necklace',    cost:20 },
+  { id:'balloon', slot:'hand', em:'🎈', name:'Balloon',          cost:20 },
+  { id:'pizza',   slot:'hand', em:'🍕', name:'Pizza Slice',      cost:25 },
+  { id:'icecream',slot:'hand', em:'🍦', name:'Ice Cream',        cost:25 },
+  { id:'book',    slot:'hand', em:'📖', name:'Story Book',       cost:30 },
+  { id:'wand',    slot:'hand', em:'🪄', name:'Magic Wand',       cost:50 },
+  { id:'sneakers',slot:'feet', em:'👟', name:'Zoomy Sneakers',   cost:30 },
+  { id:'boots',   slot:'feet', em:'🥾', name:'Stompy Boots',     cost:35 },
+  { id:'flips',   slot:'feet', em:'🩴', name:'Flip Flops',       cost:20 },
+  { id:'pack',    slot:'back', em:'🎒', name:'Snack Backpack',   cost:35, pos: [80, 60, 96] },
+  { id:'wings',   slot:'back', em:'🦇', name:'Bat Wings',        cost:60 },
 ];
+const MCOLORS = ['#7bd35a', '#ff8c42', '#b07cff', '#4cc9f0', '#ff6fa5', '#ffd23f'];
+const POKES = ['Burp!', 'Hee hee, that tickles!', 'Nom nom nom!', 'Boing!', 'Roar! (a tiny one)', 'Is it snack time?'];
+// Items bought before the mascot update, so they can be refunded once (shelf cost 30, 50, 70… each)
+const OLD_COST = { window: 40, clock: 25, art: 30, rainbow: 55, stars: 45, plant: 25, lamp: 20, teddy: 30, globe: 35, fish: 40, sofa: 50, cat: 60, owl: 70, trophy: 100 };
 
 // Reading ladder: n = books read to reach the rung, bonus = coins for reaching it
 const LADDER = [
@@ -359,7 +382,7 @@ const LADDER = [
 const DEMO = new URLSearchParams(location.search).has('demo');   // sample data, never saved
 const KEY = 'readingAdventure';
 
-function blank() { return { books: [], friends: [], recs: [], owned: { shelf: 1 }, earned: 0, spent: 0, rungs: [], kinds: [], kindBadges: [], placed: [] }; }
+function blank() { return { books: [], friends: [], recs: [], owned: {}, worn: {}, mascot: { name: 'Munchy', color: MCOLORS[0] }, earned: 0, spent: 0, rungs: [], kinds: [], kindBadges: [], placed: [] }; }
 function demoData() {
   const mk = (i, title, author, pages, genre, rating, color, note) =>
     ({ id: 'd' + i, title, author, pages, genre, rating, color, note, bonus: true, date: '2026-11-0' + i });
@@ -370,7 +393,7 @@ function demoData() {
       mk(1, 'Captain Underpants', 'Dav Pilkey', 120, 'Funny', 5, COLORS[2], 'I laughed so much.'),
     ],
     friends: [{ id: 'f1', name: 'Mia', avatar: '👻', likes: ['Animals', 'Fantasy'] }],
-    recs: [], owned: { shelf: 1, plant: 1, lamp: 1 }, earned: 200, spent: 45, rungs: [1, 3], kinds: ['Animals', 'Fantasy', 'Funny'], kindBadges: [2], placed: ['r1'],
+    recs: [], owned: { tophat: 1, shades: 1 }, worn: { head: 'tophat', face: 'shades' }, mascot: { name: 'Munchy', color: MCOLORS[0] }, earned: 200, spent: 65, rungs: [1, 3], kinds: ['Animals', 'Fantasy', 'Funny'], kindBadges: [2], placed: ['r1'],
   };
 }
 // Older saves had 9 kinds. Fold the removed ones into the 5 that are left.
@@ -382,6 +405,17 @@ function migrate(d) {
   (d.friends || []).forEach(f => { f.likes = uniq(f.likes); });
   d.kinds = uniq(d.kinds);
   d.kindBadges = KIND_BADGES.filter(k => d.kinds.length >= k.n).map(k => k.n);   // already-reached badges count as claimed
+  // Library furniture became mascot accessories: refund what was spent on it, once.
+  const old = d.owned || {};
+  if ('shelf' in old || Object.keys(old).some(k => k in OLD_COST)) {
+    let refund = 0;
+    for (let i = 1; i < (old.shelf || 1); i++) refund += 30 + 20 * (i - 1);
+    Object.keys(old).forEach(k => { if (OLD_COST[k]) refund += OLD_COST[k]; });
+    d.spent = Math.max(0, (d.spent || 0) - refund);
+    d.owned = {}; d.worn = {};
+  }
+  d.owned = d.owned || {}; d.worn = d.worn || {};
+  d.mascot = Object.assign({ name: 'Munchy', color: MCOLORS[0] }, d.mascot);
   return d;
 }
 function load() {
@@ -426,8 +460,6 @@ const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
 const balance = () => S.earned - S.spent;
 const coinsFor = (pages, rated) => Math.max(10, Math.round((pages || 0) / 2)) + (rated ? BONUS_RATE : 0);
 const hash = s => [...String(s)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
-const shelfCost = () => 30 + 20 * ((S.owned.shelf || 1) - 1);
-const costOf = it => it.kind === 'shelf' ? shelfCost() : it.cost;
 
 /* ---------- little helpers ---------- */
 function toast(msg) {
@@ -482,9 +514,28 @@ function renderList() {
       '</div></div>';
   }).join('');
 }
-function renderRoom() {
-  const books = S.books.slice().reverse();          // oldest first, so new books go on the end
-  const n = S.owned.shelf || 1;
+function monsterSvg() {
+  return '<svg viewBox="0 0 300 300" role="img" aria-label="' + esc(S.mascot.name) + ' the monster" style="--mc:' + esc(S.mascot.color) + '">' +
+    '<g style="fill:var(--mc)">' +
+    '<ellipse cx="112" cy="272" rx="32" ry="15" style="filter:brightness(.85)"/><ellipse cx="188" cy="272" rx="32" ry="15" style="filter:brightness(.85)"/>' +
+    '<ellipse cx="46" cy="196" rx="22" ry="36" transform="rotate(28 46 196)" style="filter:brightness(.9)"/><ellipse cx="254" cy="196" rx="22" ry="36" transform="rotate(-28 254 196)" style="filter:brightness(.9)"/>' +
+    '<path d="M150 52C62 52 40 140 48 208C54 260 100 282 150 282C200 282 246 260 252 208C260 140 238 52 150 52Z"/></g>' +
+    '<path d="M96 80L80 30L128 64Z" fill="#f6e7b8"/><path d="M204 80L220 30L172 64Z" fill="#f6e7b8"/>' +
+    '<ellipse cx="150" cy="226" rx="64" ry="46" fill="#fff" opacity=".28"/>' +
+    '<circle cx="80" cy="190" r="9" fill="#000" opacity=".1"/><circle cx="224" cy="160" r="12" fill="#000" opacity=".1"/><circle cx="196" cy="246" r="8" fill="#000" opacity=".1"/>' +
+    '<circle cx="112" cy="130" r="25" fill="#fff"/><circle cx="188" cy="130" r="25" fill="#fff"/>' +
+    '<circle cx="117" cy="134" r="11" fill="#2d1b4e"/><circle cx="183" cy="134" r="11" fill="#2d1b4e"/>' +
+    '<circle cx="121" cy="129" r="4" fill="#fff"/><circle cx="187" cy="129" r="4" fill="#fff"/>' +
+    '<path d="M100 178Q150 238 200 178Q150 190 100 178Z" fill="#5a1530"/>' +
+    '<path d="M116 182L125 198L134 186Z M166 186L175 198L184 182Z" fill="#fff"/>' +
+    '<ellipse cx="150" cy="209" rx="18" ry="9" fill="#ff7a93"/></svg>';
+}
+function accHtml(it) {
+  const [, x, y, s] = SLOTS[it.slot], p = it.pos || [x, y, s];
+  const one = (px, f) => '<span class="acc' + (it.slot === 'back' ? ' back' : '') + (f ? ' flip' : '') + '" style="left:' + px + '%;top:' + p[1] + '%;font-size:' + p[2] + 'px">' + it.em + '</span>';
+  return it.slot === 'feet' ? one(37, false) + one(63, true) : one(p[0], false);
+}
+function renderMascot() {
   const rated = S.books.filter(b => b.rating);
   const avg = rated.length ? (rated.reduce((a, b) => a + b.rating, 0) / rated.length).toFixed(1) : '–';
   const count = {}; S.books.forEach(b => { if (b.genre) count[b.genre] = (count[b.genre] || 0) + 1; });
@@ -492,20 +543,22 @@ function renderRoom() {
   $('stats').innerHTML = '<span class="tag">📚 ' + S.books.length + ' books</span><span class="tag">⭐ ' + avg + ' average</span>' +
     (fav ? '<span class="tag">' + GICON[fav] + ' Favourite: ' + fav + '</span>' : '');
 
-  let shelves = '';
-  for (let i = 0; i < n; i++) {
-    shelves += '<div class="shelf">' + books.slice(i * SHELF_SIZE, (i + 1) * SHELF_SIZE).map(b => {
-      const h = hash(b.id + b.title);
-      return '<button class="spine" data-act="spine" data-id="' + b.id + '" style="background-color:' + esc(b.color) + ';height:' + (74 + h % 34) + 'px;width:' + (28 + h % 12) + 'px" aria-label="' + esc(b.title) + '">' + esc(b.title) + '</button>';
-    }).join('') + '</div>';
-  }
-  const extra = books.length - n * SHELF_SIZE;
-  const deco = k => SHOP.filter(it => it.kind === k && S.owned[it.id]).map(it => '<span title="' + it.name + '">' + it.em + '</span>').join('');
-  $('room').innerHTML =
-    (extra > 0 ? '<div class="hint">📦 ' + extra + ' book' + (extra > 1 ? 's are' : ' is') + ' waiting in a box. Buy another bookshelf in the Shop!</div>' : '') +
-    (!books.length ? '<div class="hint">Your shelves are empty. Finish a book and it will appear here! 📖</div>' : '') +
-    '<div class="room"><div class="wall"><div class="walldeco">' + deco('wall') + placedHtml() + '</div><div class="shelves">' + shelves + '</div></div>' +
-    '<div class="floor">' + (deco('floor') || '<span style="font-size:16px;font-weight:700;color:#fff">Buy things in the Shop to fill your floor!</span>') + '</div></div>' + ladderHtml();
+  const worn = ACC.filter(it => S.worn[it.slot] === it.id);
+  $('room').innerHTML = '<div class="room"><div class="wall"><div class="walldeco">' + placedHtml() + '</div>' +
+    '<div class="stage"><button class="mon" data-act="poke" aria-label="Poke ' + esc(S.mascot.name) + '">' +
+    worn.filter(it => it.slot === 'back').map(accHtml).join('') + monsterSvg() + worn.filter(it => it.slot !== 'back').map(accHtml).join('') +
+    '</button></div><div class="mname">' + esc(S.mascot.name) + '</div></div><div class="floor"></div></div>';
+
+  $('mcolors').innerHTML = MCOLORS.map(c => '<button type="button" class="swatch' + (c === S.mascot.color ? ' on' : '') + '" style="background:' + c + '" data-act="mcolor" data-id="' + c + '" aria-label="colour ' + c + '"></button>').join('');
+  if (document.activeElement !== $('m-name')) $('m-name').value = S.mascot.name;
+
+  $('wardrobe').innerHTML = Object.keys(SLOTS).map(slot => {
+    const mine = ACC.filter(it => it.slot === slot && S.owned[it.id]);
+    return '<div class="slot"><b>' + SLOTS[slot][0] + '</b><div class="chips">' + (mine.length
+      ? mine.map(it => '<button type="button" class="chip' + (S.worn[slot] === it.id ? ' on' : '') + '" data-act="wear" data-id="' + it.id + '" aria-pressed="' + (S.worn[slot] === it.id) + '"><span class="em">' + it.em + '</span> ' + it.name + '</button>').join('')
+      : '<span style="color:var(--muted);font-size:14px">Nothing yet. Visit the Shop! 🛍️</span>') + '</div></div>';
+  }).join('');
+  $('ladder').innerHTML = ladderHtml();
 }
 // Total books read = books on the list; removing one never takes a rung (or its coins) away.
 function ladderHtml() {
@@ -562,10 +615,10 @@ function renderStickers() {
   }).join('');
 }
 function renderShop() {
-  $('shop').innerHTML = SHOP.map(it => {
-    const have = it.kind !== 'shelf' && S.owned[it.id];
-    const cost = costOf(it), ok = balance() >= cost;
-    return '<div class="item' + (have ? ' have' : '') + '"><div class="em">' + it.em + '</div><div class="nm">' + it.name + (it.kind === 'shelf' ? ' ×' + (S.owned.shelf || 1) : '') + '</div><div class="ds">' + it.ds + '</div>' +
+  $('shop').innerHTML = ACC.map(it => {
+    const have = S.owned[it.id];
+    const ok = balance() >= it.cost, cost = it.cost;
+    return '<div class="item' + (have ? ' have' : '') + '"><div class="em">' + it.em + '</div><div class="nm">' + it.name + '</div><div class="ds">' + SLOTS[it.slot][0] + '</div>' +
       (have ? '<div class="nm" style="color:var(--good)">✅ Got it!</div>'
             : '<button class="buy' + (ok ? '' : ' no') + '" data-act="buy" data-id="' + it.id + '">🪙 ' + cost + '</button>') + '</div>';
   }).join('');
@@ -605,10 +658,10 @@ function renderFriends() {
 function render() {
   $('coins').textContent = '🪙 ' + balance();
   document.querySelectorAll('#tabs button').forEach(b => { const on = b.dataset.id === tab; b.classList.toggle('on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
-  ['books', 'library', 'stickers', 'shop', 'friends'].forEach(t => $('p-' + t).hidden = t !== tab);
+  ['books', 'mascot', 'stickers', 'shop', 'friends'].forEach(t => $('p-' + t).hidden = t !== tab);
   if (tab === 'books') renderList();
   if (tab === 'stickers') renderStickers();
-  if (tab === 'library') renderRoom();
+  if (tab === 'mascot') renderMascot();
   if (tab === 'shop') renderShop();
   if (tab === 'friends') renderFriends();
   save();
@@ -639,7 +692,12 @@ document.addEventListener('click', e => {
       else confirmId = 'f' + id;
       render(); break;
     case 'nodel': confirmId = ''; render(); break;
-    case 'spine': { const b = S.books.find(x => x.id === id); if (b) toast('“' + b.title + '” ' + (b.rating ? stars(b.rating) : '')); break; }
+    case 'wear': { const it = ACC.find(x => x.id === id); if (S.worn[it.slot] === id) delete S.worn[it.slot]; else S.worn[it.slot] = id; render(); break; }
+    case 'mcolor': S.mascot.color = id; render(); break;
+    case 'poke': {
+      t.classList.remove('jump'); void t.offsetWidth; t.classList.add('jump');
+      toast(S.mascot.name + ': ' + POKES[Math.floor(Math.random() * POKES.length)]); break;
+    }
     case 'backup': backup(); break;
     case 'buy': buy(id); break;
     case 'sticker': {
@@ -654,6 +712,7 @@ document.addEventListener('click', e => {
   }
 });
 $('f-pages').addEventListener('input', renderForm);
+$('m-name').addEventListener('change', e => { S.mascot.name = e.target.value.trim().slice(0, 16) || 'Munchy'; e.target.value = S.mascot.name; render(); });
 $('restore').addEventListener('change', e => { if (e.target.files[0]) restore(e.target.files[0]); e.target.value = ''; });
 
 function addBook() {
@@ -680,10 +739,11 @@ function addBook() {
     (fresh.length ? '\n🏅 New sticker: ' + fresh.map(s => s.em + ' ' + s.name).join(', ') : ''));
 }
 function buy(id) {
-  const it = SHOP.find(x => x.id === id), cost = costOf(it);
+  const it = ACC.find(x => x.id === id), cost = it.cost;
+  if (S.owned[id]) return;
   if (balance() < cost) { toast('You need ' + (cost - balance()) + ' more coins. Read another book! 📖'); return; }
-  S.spent += cost; S.owned[id] = (S.owned[id] || 0) + 1;
-  render(); celebrate('You got ' + (it.kind === 'shelf' ? 'a new bookshelf' : 'a ' + it.name.toLowerCase()) + '! ' + it.em);
+  S.spent += cost; S.owned[id] = 1; S.worn[it.slot] = id;    // new things are put on straight away
+  render(); celebrate(S.mascot.name + ' is wearing the ' + it.name + '! ' + it.em);
 }
 function addFriend() {
   const name = $('fr-name').value.trim();
