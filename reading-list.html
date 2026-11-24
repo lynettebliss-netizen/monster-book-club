@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Book Eating Monster Club</title>
+<style>
+  :root {
+    --ink: #2d1b4e;
+    --muted: #75669b;
+    --card: #ffffff;
+    --line: #e2d3fb;
+    --accent: #7b3fe4;
+    --accent-2: #ff7a3d;
+    --gold: #ffc93c;
+    --gold-ink: #7a5500;
+    --good: #2fbf4f;
+  }
+  * { box-sizing: border-box; }
+  html { background: linear-gradient(180deg, #d8c8ff 0%, #c9f5d3 60%, #fff0c9 100%) fixed; }
+  .say { margin: 2px 0 0; font-size: 14px; font-weight: 700; font-style: italic; color: var(--muted); }
+  @keyframes wob { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg) scale(1.08); } }
+  .wob { display: inline-block; animation: wob 1.6s ease-in-out infinite; }
+  .kinds { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin: 10px 0; }
+  .kind { text-align: center; border-radius: 16px; padding: 8px 4px; background: #eee9f7; color: #9a8fb5; font-weight: 700; font-size: 14px; }
+  .kind.got { background: #dff8e4; color: var(--ink); }
+  .kind .em { font-size: 34px; line-height: 1.1; display: block; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge { background: #eee9f7; color: #9a8fb5; border-radius: 14px; padding: 8px 12px; font-weight: 800; font-size: 14px; }
+  .badge.got { background: #fff2c2; color: var(--gold-ink); }
+  .stickers { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
+  .sticker { border: 3px dashed var(--line); background: #fff; border-radius: 20px; padding: 10px 4px; text-align: center; font: inherit; color: var(--ink); cursor: pointer; min-height: 120px; }
+  .sticker .em { font-size: 46px; line-height: 1.1; display: block; }
+  .sticker b { display: block; font-size: 14px; }
+  .sticker small { display: block; font-size: 12px; color: var(--muted); }
+  .sticker.got { border-style: solid; border-color: var(--accent); }
+  .sticker.got:hover .em, .sticker.on .em { animation: wob 1.2s ease-in-out infinite; }
+  .sticker.on { background: #efe7ff; }
+  .sticker.lock { opacity: .55; cursor: default; }
+  @media (prefers-reduced-motion: reduce) { .wob, .sticker .em { animation: none !important; } }
+  body {
+    margin: 0; padding: 16px 16px 60px; color: var(--ink);
+    font-family: ui-rounded, "SF Pro Rounded", "Trebuchet MS", system-ui, sans-serif;
+    font-size: 17px; line-height: 1.4;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  h1 { margin: 0; font-size: clamp(26px, 6vw, 38px); color: var(--accent); }
+  h2 { margin: 0 0 10px; font-size: 22px; }
+  .coins {
+    background: var(--gold); color: var(--gold-ink); font-weight: 800; font-size: 24px;
+    padding: 6px 18px; border-radius: 999px; box-shadow: 0 3px 0 #d9a21c;
+  }
+  nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
+  nav button {
+    border: 0; border-radius: 18px; padding: 10px 4px; min-height: 56px; background: #ffffffaa; color: var(--ink);
+    font: inherit; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 0;
+  }
+  nav button span { font-size: 24px; line-height: 1.1; }
+  nav button.on { background: var(--accent); color: #fff; box-shadow: 0 3px 0 #5a3fb0; }
+  .card { background: var(--card); border-radius: 22px; padding: 18px; margin-bottom: 16px; box-shadow: 0 4px 14px #7b5cd622; }
+  label { display: block; font-weight: 700; margin: 10px 0 4px; }
+  input[type=text], input[type=number], textarea {
+    width: 100%; font: inherit; padding: 10px 14px; border: 2px solid var(--line); border-radius: 14px; color: var(--ink); background: #fff; min-height: 46px;
+  }
+  input:focus, textarea:focus { outline: 3px solid #b9a5f2; border-color: var(--accent); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    border: 2px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 14px; min-height: 44px;
+    font: inherit; font-weight: 600; color: var(--ink); cursor: pointer;
+  }
+  .chip.on { background: #efe7ff; border-color: var(--accent); }
+  .swatch { width: 44px; height: 44px; border-radius: 12px; border: 4px solid #fff; box-shadow: 0 0 0 2px var(--line); cursor: pointer; padding: 0; }
+  .swatch.on { box-shadow: 0 0 0 4px var(--ink); }
+  .star { border: 0; background: none; font-size: 32px; line-height: 1; color: #d8ceea; cursor: pointer; padding: 2px 3px; min-width: 40px; min-height: 44px; }
+  .star.on { color: #ffb400; }
+  .big {
+    border: 0; border-radius: 18px; padding: 12px 22px; min-height: 52px; font: inherit; font-weight: 800; font-size: 19px;
+    background: var(--good); color: #fff; box-shadow: 0 4px 0 #048a68; cursor: pointer; margin-top: 14px;
+  }
+  .big:active { transform: translateY(2px); box-shadow: 0 2px 0 #048a68; }
+  .small {
+    border: 2px solid var(--line); background: #fff; border-radius: 12px; padding: 6px 12px; min-height: 40px;
+    font: inherit; font-weight: 700; color: var(--ink); cursor: pointer;
+  }
+  .small.warn { border-color: #ff9aa8; color: #c0243d; }
+  .small.go { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+  .preview { margin-top: 10px; font-weight: 800; color: var(--gold-ink); }
+  .msg { color: #c0243d; font-weight: 700; min-height: 1.4em; }
+  .book { display: flex; gap: 14px; align-items: center; padding: 12px 0; border-top: 2px dashed var(--line); }
+  .book:first-child { border-top: 0; }
+  .cover {
+    flex: none; width: 54px; height: 72px; border-radius: 6px 12px 12px 6px; box-shadow: inset 6px 0 0 #00000026, 0 2px 4px #0003;
+    display: grid; place-items: center; font-size: 26px;
+  }
+  .book .info { flex: 1; min-width: 0; }
+  .book .t { font-weight: 800; font-size: 18px; overflow-wrap: anywhere; }
+  .book .meta { color: var(--muted); font-size: 14px; }
+  .book .note { font-style: italic; font-size: 15px; }
+  .tag { display: inline-block; background: #efe7ff; border-radius: 999px; padding: 0 10px; font-size: 14px; font-weight: 700; }
+  .earned { color: var(--gold-ink); font-weight: 800; font-size: 14px; }
+  .empty { color: var(--muted); text-align: center; padding: 18px 6px; }
+
+  /* Library room */
+  /* Library room: brick back wall, shaded side walls and ceiling, baseboard, perspective wood floor */
+  .room { border-radius: 24px; overflow: hidden; border: 6px solid #6b4220; margin-bottom: 14px; box-shadow: 0 18px 30px -12px #0008, inset 0 0 0 2px #b8803f; }
+  .wall {
+    padding: 18px 18px 24px; border-bottom: 14px solid #f3e7d6; position: relative;
+    background:
+      radial-gradient(ellipse at 50% 20%, #ffe8a844 0, transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='48'%3E%3Crect width='64' height='48' fill='%23e3d2bd'/%3E%3Crect x='2' y='2' width='28' height='20' fill='%23b9503a'/%3E%3Crect x='34' y='2' width='28' height='20' fill='%23c45f46'/%3E%3Crect x='18' y='26' width='28' height='20' fill='%23c9654b'/%3E%3Crect x='50' y='26' width='28' height='20' fill='%23ad4733'/%3E%3Crect x='-14' y='26' width='28' height='20' fill='%23ad4733'/%3E%3Crect x='2' y='2' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='34' y='2' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='18' y='26' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='50' y='26' width='28' height='3' fill='%23ffffff22'/%3E%3Crect x='-14' y='26' width='28' height='3' fill='%23ffffff22'/%3E%3C/svg%3E");
+    box-shadow: inset 0 26px 30px -16px #000b, inset 28px 0 30px -18px #000a, inset -28px 0 30px -18px #000a;
+  }
+  .walldeco { display: flex; flex-wrap: wrap; gap: 16px; font-size: 42px; margin-bottom: 14px; min-height: 10px; filter: drop-shadow(3px 6px 4px #0007); }
+  .shelves { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; }
+  .shelf {
+    display: flex; align-items: flex-end; gap: 3px; min-height: 142px; padding: 0 8px;
+    background: linear-gradient(#2e1c0d, #5b3a1d); border: 7px solid #9a6431; border-bottom-width: 15px;
+    border-color: #c28a4a #7a4d22 #5e3a18 #8a5a2b; border-radius: 6px 6px 3px 3px;
+    box-shadow: inset 0 14px 18px -4px #000c, inset 10px 0 10px -6px #0009, inset -10px 0 10px -6px #0009, 0 12px 14px -4px #000b;
+  }
+  .spine {
+    border: 0; border-radius: 3px; color: #fff; font: 700 11px/1 ui-rounded, system-ui, sans-serif; padding: 6px 0;
+    writing-mode: vertical-rl; text-orientation: mixed; overflow: hidden; cursor: pointer;
+    background-image: linear-gradient(90deg, #0000 0, #ffffff40 14%, #0000 38%, #0000 70%, #00000055 100%);
+    box-shadow: inset 2px 0 0 #ffffff55, inset -2px 0 0 #0003, 3px 0 4px #000a; transition: transform .15s;
+    text-shadow: 0 1px 1px #0005;
+  }
+  .spine:hover, .spine:focus-visible { transform: translateY(-6px) rotate(-3deg); }
+  .floor { position: relative; overflow: hidden; background: #6e4220; padding: 22px 18px 12px; min-height: 120px; display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; font-size: 46px; line-height: 1; }
+  .floor::before {
+    content: ""; position: absolute; left: -30%; right: -30%; top: 0; bottom: -30px; z-index: 0;
+    background:
+      linear-gradient(#0006, #0000 55%),
+      repeating-linear-gradient(0deg, #0000 0 38px, #0004 38px 40px),
+      repeating-linear-gradient(90deg, #cf9358 0 62px, #8a5528 62px 65px);
+    transform: perspective(240px) rotateX(38deg); transform-origin: 50% 0;
+  }
+  .floor > * { position: relative; z-index: 1; filter: drop-shadow(0 8px 3px #000a); }
+  .hint { background: #fff; border-radius: 14px; padding: 10px 14px; margin-bottom: 14px; font-weight: 700; }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .stats .tag { background: #fff; padding: 4px 12px; font-size: 15px; }
+
+  /* Reading ladder */
+  .ladder { width: min(100%, 360px); margin: 6px auto 0; display: flex; flex-direction: column; border-left: 8px solid #c68b59; border-right: 8px solid #c68b59; padding: 0 6px; }
+  .rung { position: relative; display: flex; align-items: center; gap: 10px; padding: 12px 6px 10px; border-bottom: 8px solid #e0a96d; opacity: .55; }
+  .rung.done { opacity: 1; }
+  .rung.here { background: #fff6d6; border-radius: 12px 12px 0 0; }
+  .rung .ic { font-size: 28px; width: 38px; text-align: center; }
+  .rung .nm { flex: 1; font-weight: 800; line-height: 1.2; }
+  .rung .nm small { display: block; color: var(--muted); font-weight: 600; }
+  .rung .bn { font-size: 13px; font-weight: 800; color: var(--gold-ink); }
+  .climber { position: absolute; right: -44px; top: 6px; font-size: 34px; }
+  .ladderwrap { padding-right: 44px; }
+
+  /* Shop */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .item { background: #fff; border-radius: 20px; padding: 12px; text-align: center; box-shadow: 0 4px 14px #7b5cd622; display: flex; flex-direction: column; gap: 4px; }
+  .item .em { font-size: 48px; line-height: 1.1; }
+  .item .nm { font-weight: 800; }
+  .item .ds { color: var(--muted); font-size: 13px; flex: 1; }
+  .item.have { background: #e9fbf4; }
+  .buy { border: 0; border-radius: 14px; min-height: 44px; font: inherit; font-weight: 800; background: var(--gold); color: var(--gold-ink); cursor: pointer; box-shadow: 0 3px 0 #d9a21c; }
+  .buy.no { background: #eee; color: #999; box-shadow: 0 3px 0 #ccc; }
+
+  /* Friends */
+  .friend { border-top: 2px dashed var(--line); padding: 14px 0; }
+  .friend:first-child { border-top: 0; }
+  .fhead { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .avatar { font-size: 36px; }
+  .fname { font-weight: 800; font-size: 20px; flex: 1; }
+  .sug { display: flex; align-items: center; gap: 10px; background: #faf6ff; border-radius: 14px; padding: 8px 10px; margin-top: 8px; flex-wrap: wrap; }
+  .sug .dot { width: 14px; height: 36px; border-radius: 3px; flex: none; }
+  .sug .why { flex: 1; min-width: 140px; }
+  .sug .why small { display: block; color: var(--muted); }
+  .sug .letter { width: 100%; }
+  .sug textarea { min-height: 96px; }
+
+  /* Celebration */
+  .pop {
+    position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 20;
+  }
+  .pop div.b {
+    background: var(--gold); color: var(--gold-ink); font-weight: 900; font-size: clamp(22px, 6vw, 34px); max-width: 90vw; text-align: center; white-space: pre-line; padding: 18px 32px;
+    border-radius: 28px; box-shadow: 0 8px 0 #d9a21c, 0 20px 40px #0003; animation: bounce 2.2s ease both;
+  }
+  .conf { position: fixed; top: 40%; left: 50%; font-size: 30px; animation: fly 1.8s ease-out forwards; z-index: 21; pointer-events: none; }
+  @keyframes bounce { 0% { transform: scale(.3); opacity: 0; } 15% { transform: scale(1.15); opacity: 1; } 25% { transform: scale(1); } 85% { opacity: 1; } 100% { transform: scale(1) translateY(-30px); opacity: 0; } }
+  @keyframes fly { to { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: #fff; font-weight: 700;
+    padding: 12px 20px; border-radius: 999px; z-index: 30; max-width: 90vw; text-align: center;
+  }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { .pop div.b, .conf { animation: none; } .conf { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>The Book Eating Monster Club</h1>
+      <div class="say" id="say"></div>
+    </div>
+    <div class="coins" id="coins" aria-live="polite">🪙 0</div>
+  </header>
+
+  <div class="hint" id="warn" hidden style="background:#fff3c4">⚠️ This window can't remember things. Open the file in Chrome or Safari so it saves, or use "Save backup" at the bottom.</div>
+
+  <nav id="tabs">
+    <button data-act="tab" data-id="books"><span>📚</span>My Books</button>
+    <button data-act="tab" data-id="library"><span>🏰</span>Library</button>
+    <button data-act="tab" data-id="stickers"><span>🏅</span>Stickers</button>
+    <button data-act="tab" data-id="shop"><span>🛍️</span>Shop</button>
+    <button data-act="tab" data-id="friends"><span>💌</span>Friends</button>
+  </nav>
+
+  <!-- MY BOOKS -->
+  <section id="p-books">
+    <div class="card">
+      <h2>Feed the monsters a book! 👾</h2>
+      <label for="f-title">Book name</label>
+      <input type="text" id="f-title" placeholder="Book name" autocomplete="off">
+      <div class="row">
+        <div><label for="f-author">Who wrote it?</label><input type="text" id="f-author" placeholder="Author" autocomplete="off"></div>
+        <div><label for="f-pages">How many pages?</label><input type="number" id="f-pages" min="1" max="999" inputmode="numeric" placeholder="e.g. 32"></div>
+      </div>
+      <label>What kind of book is it?</label>
+      <div class="chips" id="f-genres"></div>
+      <label>Pick a cover colour</label>
+      <div class="chips" id="f-colors"></div>
+      <label>How much did I like it?</label>
+      <div id="f-stars"></div>
+      <label for="f-note">What I liked about it (you can skip this)</label>
+      <textarea id="f-note" rows="2" placeholder="It was funny because…"></textarea>
+      <div class="preview" id="f-preview"></div>
+      <div class="msg" id="f-msg"></div>
+      <button class="big" data-act="addBook">Nom nom! I finished it 🪙</button>
+    </div>
+    <div class="card">
+      <h2>Books I have read</h2>
+      <div id="list"></div>
+    </div>
+  </section>
+
+  <!-- MY LIBRARY -->
+  <section id="p-library" hidden>
+    <div class="stats" id="stats"></div>
+    <div id="room"></div>
+  </section>
+
+  <!-- STICKERS + KINDS EXPLORER -->
+  <section id="p-stickers" hidden>
+    <div class="card" id="kindsCard"></div>
+    <div class="card">
+      <h2>🏅 My Monster Stickers</h2>
+      <div class="hint" style="background:#f6f0ff">Climb the ladder and try new kinds of books to unlock monsters. Tap a monster to stick it on your library wall!</div>
+      <div class="stickers" id="album"></div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="p-shop" hidden>
+    <div class="hint">Spend your coins to make your library cosy! Read more books to earn more coins. 🪙</div>
+    <div class="grid" id="shop"></div>
+  </section>
+
+  <!-- FRIENDS -->
+  <section id="p-friends" hidden>
+    <div class="card">
+      <h2>Add a friend</h2>
+      <label for="fr-name">Friend's name</label>
+      <input type="text" id="fr-name" placeholder="Name" autocomplete="off">
+      <label>Pick a picture</label>
+      <div class="chips" id="fr-avatars"></div>
+      <label>What books do they like?</label>
+      <div class="chips" id="fr-genres"></div>
+      <div class="msg" id="fr-msg"></div>
+      <button class="big" data-act="addFriend">Add friend 💛</button>
+    </div>
+    <div class="card">
+      <h2>Books to tell my friends about</h2>
+      <div id="friends"></div>
+    </div>
+  </section>
+
+  <div class="card" style="text-align:center">
+    <b>💾 Keep my monsters safe</b>
+    <div class="meta" style="color:var(--muted);font-size:14px;margin:4px 0 10px">Everything saves automatically on this device. A backup file lets you move it or keep a spare copy.</div>
+    <button class="small" data-act="backup">Save backup</button>
+    <label class="small" style="display:inline-block;margin:0">Load backup<input type="file" accept="application/json,.json" id="restore" hidden></label>
+  </div>
+</div>
+
+<script>
+const GENRES = [['Animals','🐾'],['Fantasy','🧙'],['Funny','😂'],['Adventure','🗺️'],['Science','🔬']];
+const GICON = Object.fromEntries(GENRES);
+const COLORS = ['#ef476f','#f78c40','#e6a800','#06b58a','#118ab2','#7b5cd6','#ff7eb6','#8d6e63'];
+const AVATARS = ['👾','👻','🤖','🐙','🦖','👽','🧟','🦑'];
+const SAYS = ['Nom nom nom! Feed me a book!', 'Burp! That last book was yummy.', 'Psst… the Library monsters are hungry for stories!', 'Roar! Which book is next?', 'Hee hee! Pages taste like pizza!', 'I\'m a monster who loves to read. Wanna read with me?'];
+// Stickers: ladder rungs unlock "r<n>", reading a new kind unlocks "k:<kind>"
+const STICKERS = [
+  { id: 'r1',  em: '🐛', name: 'Baby Grub',      how: 'Read 1 book' },
+  { id: 'r3',  em: '👻', name: 'Boo Buddy',      how: 'Read 3 books' },
+  { id: 'r5',  em: '🦖', name: 'Stompy Rex',     how: 'Read 5 books' },
+  { id: 'r10', em: '🤖', name: 'Robo Munch',     how: 'Read 10 books' },
+  { id: 'r15', em: '🦑', name: 'Squiddy',        how: 'Read 15 books' },
+  { id: 'r20', em: '👽', name: 'Zorp',           how: 'Read 20 books' },
+  { id: 'r30', em: '🐉', name: 'Fluffy Dragon',  how: 'Read 30 books' },
+  { id: 'r50', em: '👑', name: 'Monster King',   how: 'Read 50 books' },
+  { id: 'k:Animals',     em: '🦦', name: 'Otterbeast',      how: 'Read an Animals book' },
+  { id: 'k:Fantasy',     em: '🦄', name: 'Sparkle Beast',   how: 'Read a Fantasy book' },
+  { id: 'k:Funny',       em: '🤪', name: 'Giggler',         how: 'Read a Funny book' },
+  { id: 'k:Adventure',   em: '🦎', name: 'Gecko Explorer',  how: 'Read an Adventure book' },
+  { id: 'k:Science',     em: '🦠', name: 'Germy Goo',       how: 'Read a Science book' },
+];
+// Kinds Explorer badges: n = different kinds of book read
+const KIND_BADGES = [
+  { n: 2, em: '🥉', name: 'Kinds Sampler',   bonus: 15 },
+  { n: 4, em: '🥈', name: 'Kinds Traveller', bonus: 30 },
+  { n: 5, em: '🥇', name: 'Kinds Champion',  bonus: 60 },
+];
+const SHELF_SIZE = 6;
+const BONUS_RATE = 3;   // coins for rating a book
+const BONUS_REC = 2;    // coins for recommending a book to a friend for the first time
+// kind: shelf (stock books), wall (hangs up top), floor (sits on the floor)
+const SHOP = [
+  { id:'shelf',  kind:'shelf', em:'📚', name:'Monster Bookshelf', ds:'Holds ' + SHELF_SIZE + ' more books' },
+  { id:'window', kind:'wall',  em:'🪟', name:'Peek-a-boo Window', ds:'Monsters peek in!', cost:40 },
+  { id:'clock',  kind:'wall',  em:'🕰️', name:'Tick-Tock Clock',   ds:'Time for a story!', cost:25 },
+  { id:'art',    kind:'wall',  em:'🖼️', name:'Monster Portrait',  ds:'Very handsome', cost:30 },
+  { id:'rainbow',kind:'wall',  em:'🌈', name:'Slime Rainbow',     ds:'Drippy and bright', cost:55 },
+  { id:'stars',  kind:'wall',  em:'🕸️', name:'Spooky Cobweb',     ds:'Spiders welcome', cost:45 },
+  { id:'plant',  kind:'floor', em:'🪴', name:'Grumpy Plant',      ds:'It growls when you read', cost:25 },
+  { id:'lamp',   kind:'floor', em:'👁️', name:'Eyeball Lamp',      ds:'It watches you read', cost:20 },
+  { id:'teddy',  kind:'floor', em:'🧸', name:'Snuggle Monster',   ds:'A friend to read with', cost:30 },
+  { id:'globe',  kind:'floor', em:'🌍', name:'Monster Map Globe', ds:'Find where monsters live', cost:35 },
+  { id:'fish',   kind:'floor', em:'🐠', name:'Googly Fish',       ds:'Blub blub', cost:40 },
+  { id:'sofa',   kind:'floor', em:'🛋️', name:'Squishy Sofa',      ds:'Eats snacks you drop', cost:50 },
+  { id:'cat',    kind:'floor', em:'🐈‍⬛', name:'Spooky Cat',        ds:'Purrs in the dark', cost:60 },
+  { id:'owl',    kind:'floor', em:'🦉', name:'Night Owl',         ds:'Hoo loves spooky books?', cost:70 },
+  { id:'trophy', kind:'floor', em:'🏆', name:'Golden Trophy',     ds:'For a super reader', cost:100 },
+];
+
+// Reading ladder: n = books read to reach the rung, bonus = coins for reaching it
+const LADDER = [
+  { n: 1,  em: '🐛', name: 'Baby Grub',         bonus: 5 },
+  { n: 3,  em: '👻', name: 'Page Muncher',      bonus: 10 },
+  { n: 5,  em: '🦖', name: 'Cave Explorer',     bonus: 15 },
+  { n: 10, em: '🤖', name: 'Monster Hero',      bonus: 25 },
+  { n: 15, em: '🦑', name: 'Squidgy Scholar',   bonus: 30 },
+  { n: 20, em: '👽', name: 'Space Monster',     bonus: 40 },
+  { n: 30, em: '🐉', name: 'Reading Dragon',    bonus: 50 },
+  { n: 50, em: '👑', name: 'Monster King',      bonus: 100 },
+];
+
+const DEMO = new URLSearchParams(location.search).has('demo');   // sample data, never saved
+const KEY = 'readingAdventure';
+
+function blank() { return { books: [], friends: [], recs: [], owned: { shelf: 1 }, earned: 0, spent: 0, rungs: [], kinds: [], kindBadges: [], placed: [] }; }
+function demoData() {
+  const mk = (i, title, author, pages, genre, rating, color, note) =>
+    ({ id: 'd' + i, title, author, pages, genre, rating, color, note, bonus: true, date: '2026-11-0' + i });
+  return {
+    books: [
+      mk(3, 'The Gruffalo', 'Julia Donaldson', 32, 'Animals', 5, COLORS[3], 'The mouse is so clever!'),
+      mk(2, 'Dragon Masters', 'Tracey West', 80, 'Fantasy', 4, COLORS[0], ''),
+      mk(1, 'Captain Underpants', 'Dav Pilkey', 120, 'Funny', 5, COLORS[2], 'I laughed so much.'),
+    ],
+    friends: [{ id: 'f1', name: 'Mia', avatar: '👻', likes: ['Animals', 'Fantasy'] }],
+    recs: [], owned: { shelf: 1, plant: 1, lamp: 1 }, earned: 200, spent: 45, rungs: [1, 3], kinds: ['Animals', 'Fantasy', 'Funny'], kindBadges: [2], placed: ['r1'],
+  };
+}
+// Older saves had 9 kinds. Fold the removed ones into the 5 that are left.
+const KIND_MAP = { 'Fairy tales': 'Fantasy', 'Mystery': 'Adventure', 'Space': 'Science' };
+function migrate(d) {
+  const fix = g => GICON[g] ? g : (KIND_MAP[g] || '');
+  const uniq = a => [...new Set((a || []).map(fix).filter(Boolean))];
+  (d.books || []).forEach(b => { b.genre = fix(b.genre); });
+  (d.friends || []).forEach(f => { f.likes = uniq(f.likes); });
+  d.kinds = uniq(d.kinds);
+  d.kindBadges = KIND_BADGES.filter(k => d.kinds.length >= k.n).map(k => k.n);   // already-reached badges count as claimed
+  return d;
+}
+function load() {
+  if (DEMO) return demoData();
+  try { const r = localStorage.getItem(KEY); if (r) return Object.assign(blank(), migrate(JSON.parse(r))); } catch (e) {}
+  return blank();
+}
+function save() {
+  if (DEMO) return;
+  try { localStorage.setItem(KEY, JSON.stringify(S)); $('warn').hidden = true; }
+  catch (e) { $('warn').hidden = false; }   // storage blocked: tell the user, the backup buttons still work
+}
+function backup() {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' }));
+  a.download = 'monster-club-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('Backup saved to your Downloads! 💾');
+}
+function restore(file) {
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const d = JSON.parse(r.result);
+      if (!d || !Array.isArray(d.books) || !Array.isArray(d.friends)) throw new Error('bad');
+      S = Object.assign(blank(), migrate(d)); render(); toast('Backup loaded! 🎉');
+    } catch (e) { toast('That file is not a Monster Club backup.'); }
+  };
+  r.readAsText(file);
+}
+
+let S = load();
+let tab = 'books';
+let draft = { genre: '', color: COLORS[5], rating: 0 };
+let fdraft = { avatar: AVATARS[0], likes: [] };
+let confirmId = '';   // item waiting for a second tap to delete
+let openNote = '';    // "bookId|friendId" whose letter is showing
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
+const balance = () => S.earned - S.spent;
+const coinsFor = (pages, rated) => Math.max(10, Math.round((pages || 0) / 2)) + (rated ? BONUS_RATE : 0);
+const hash = s => [...String(s)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const shelfCost = () => 30 + 20 * ((S.owned.shelf || 1) - 1);
+const costOf = it => it.kind === 'shelf' ? shelfCost() : it.cost;
+
+/* ---------- little helpers ---------- */
+function toast(msg) {
+  document.querySelectorAll('.toast').forEach(n => n.remove());
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; t.setAttribute('role', 'status');
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
+}
+function celebrate(text) {
+  const p = document.createElement('div'); p.className = 'pop'; p.innerHTML = '<div class="b">' + esc(text) + '</div>';
+  document.body.appendChild(p); setTimeout(() => p.remove(), 2300);
+  const bits = ['🪙', '⭐', '🎉', '📚', '✨'];
+  for (let i = 0; i < 16; i++) {
+    const c = document.createElement('span'); c.className = 'conf'; c.textContent = bits[i % bits.length];
+    const a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 180;
+    c.style.setProperty('--x', Math.cos(a) * d + 'px'); c.style.setProperty('--y', Math.sin(a) * d - 60 + 'px');
+    c.style.setProperty('--r', Math.random() * 360 + 'deg');
+    document.body.appendChild(c); setTimeout(() => c.remove(), 1900);
+  }
+}
+function starButtons(n, act, id) {
+  let h = '';
+  for (let i = 1; i <= 5; i++)
+    h += '<button type="button" class="star' + (i <= n ? ' on' : '') + '" data-act="' + act + '" data-id="' + esc(id || '') + '" data-n="' + i + '" aria-label="' + i + ' star' + (i > 1 ? 's' : '') + '">★</button>';
+  return h;
+}
+function chipHtml(act, list, on, multi) {
+  return list.map(([g, e]) => '<button type="button" class="chip' + (on.includes(g) ? ' on' : '') + '" data-act="' + act + '" data-id="' + esc(g) + '" aria-pressed="' + on.includes(g) + '">' + e + ' ' + g + '</button>').join('');
+}
+
+/* ---------- renderers ---------- */
+function renderForm() {
+  $('f-genres').innerHTML = chipHtml('pickGenre', GENRES, [draft.genre]);
+  $('f-colors').innerHTML = COLORS.map(c => '<button type="button" class="swatch' + (c === draft.color ? ' on' : '') + '" style="background:' + c + '" data-act="pickColor" data-id="' + c + '" aria-label="colour ' + c + '"></button>').join('');
+  $('f-stars').innerHTML = starButtons(draft.rating, 'draftRate');
+  $('f-preview').textContent = '🪙 This book is worth ' + coinsFor(+$('f-pages').value, draft.rating > 0) + ' coins' + (draft.rating ? '' : ' (+' + BONUS_RATE + ' more if you rate it!)');
+}
+function renderList() {
+  if (!S.books.length) { $('list').innerHTML = '<div class="empty">No books yet. Add the first one you read! 📕</div>'; return; }
+  $('list').innerHTML = S.books.map(b => {
+    const sure = confirmId === 'b' + b.id;
+    return '<div class="book">' +
+      '<div class="cover" style="background:' + esc(b.color) + '">' + (GICON[b.genre] || '📖') + '</div>' +
+      '<div class="info"><div class="t">' + esc(b.title) + '</div>' +
+      '<div class="meta">' + (b.author ? 'by ' + esc(b.author) + ' · ' : '') + (b.pages ? b.pages + ' pages' : '') + '</div>' +
+      (b.genre ? '<span class="tag">' + GICON[b.genre] + ' ' + esc(b.genre) + '</span> ' : '') +
+      '<div>' + starButtons(b.rating, 'rate', b.id) + '</div>' +
+      (b.note ? '<div class="note">“' + esc(b.note) + '”</div>' : '') +
+      '</div>' +
+      '<div>' + (sure
+        ? '<button class="small warn" data-act="del" data-id="' + b.id + '">Really remove?</button> <button class="small" data-act="nodel">No</button>'
+        : '<button class="small" data-act="del" data-id="' + b.id + '" aria-label="Remove ' + esc(b.title) + '">🗑️</button>') +
+      '</div></div>';
+  }).join('');
+}
+function renderRoom() {
+  const books = S.books.slice().reverse();          // oldest first, so new books go on the end
+  const n = S.owned.shelf || 1;
+  const rated = S.books.filter(b => b.rating);
+  const avg = rated.length ? (rated.reduce((a, b) => a + b.rating, 0) / rated.length).toFixed(1) : '–';
+  const count = {}; S.books.forEach(b => { if (b.genre) count[b.genre] = (count[b.genre] || 0) + 1; });
+  const fav = Object.keys(count).sort((a, b) => count[b] - count[a])[0];
+  $('stats').innerHTML = '<span class="tag">📚 ' + S.books.length + ' books</span><span class="tag">⭐ ' + avg + ' average</span>' +
+    (fav ? '<span class="tag">' + GICON[fav] + ' Favourite: ' + fav + '</span>' : '');
+
+  let shelves = '';
+  for (let i = 0; i < n; i++) {
+    shelves += '<div class="shelf">' + books.slice(i * SHELF_SIZE, (i + 1) * SHELF_SIZE).map(b => {
+      const h = hash(b.id + b.title);
+      return '<button class="spine" data-act="spine" data-id="' + b.id + '" style="background-color:' + esc(b.color) + ';height:' + (74 + h % 34) + 'px;width:' + (28 + h % 12) + 'px" aria-label="' + esc(b.title) + '">' + esc(b.title) + '</button>';
+    }).join('') + '</div>';
+  }
+  const extra = books.length - n * SHELF_SIZE;
+  const deco = k => SHOP.filter(it => it.kind === k && S.owned[it.id]).map(it => '<span title="' + it.name + '">' + it.em + '</span>').join('');
+  $('room').innerHTML =
+    (extra > 0 ? '<div class="hint">📦 ' + extra + ' book' + (extra > 1 ? 's are' : ' is') + ' waiting in a box. Buy another bookshelf in the Shop!</div>' : '') +
+    (!books.length ? '<div class="hint">Your shelves are empty. Finish a book and it will appear here! 📖</div>' : '') +
+    '<div class="room"><div class="wall"><div class="walldeco">' + deco('wall') + placedHtml() + '</div><div class="shelves">' + shelves + '</div></div>' +
+    '<div class="floor">' + (deco('floor') || '<span style="font-size:16px;font-weight:700;color:#fff">Buy things in the Shop to fill your floor!</span>') + '</div></div>' + ladderHtml();
+}
+// Total books read = books on the list; removing one never takes a rung (or its coins) away.
+function ladderHtml() {
+  const count = S.books.length;
+  const reached = LADDER.filter(r => count >= r.n);
+  const top = reached.length - 1, next = LADDER[reached.length];
+  const rows = LADDER.map((r, i) => {
+    const done = i <= top, here = i === top;
+    return '<div class="rung' + (done ? ' done' : '') + (here ? ' here' : '') + '"><span class="ic">' + (done ? r.em : '🔒') + '</span>' +
+      '<span class="nm">' + r.name + '<small>' + r.n + ' book' + (r.n > 1 ? 's' : '') + '</small></span>' +
+      '<span class="bn">' + (done ? '✅' : '🪙 +' + r.bonus) + '</span>' + (here ? '<span class="climber" title="You are here!">👾</span>' : '') + '</div>';
+  }).reverse().join('');
+  const start = !reached.length ? '<div class="rung here" style="opacity:1;border-bottom-color:transparent"><span class="ic">👾</span><span class="nm">Start here!<small>Finish a book to climb</small></span></div>' : '';
+  return '<div class="card" style="margin-top:16px"><h2>🪜 My Reading Ladder</h2>' +
+    '<div style="font-weight:800;margin-bottom:10px">📚 ' + count + ' book' + (count === 1 ? '' : 's') + ' read' +
+    (next ? ' · ' + (next.n - count) + ' more to reach ' + next.em + ' ' + next.name + '!' : ' · You reached the top! 🎉') + '</div>' +
+    '<div class="ladderwrap"><div class="ladder">' + rows + start + '</div></div></div>';
+}
+function checkRungs() {
+  let bonus = 0, last = null;
+  LADDER.forEach(r => {
+    if (S.books.length >= r.n && !S.rungs.includes(r.n)) { S.rungs.push(r.n); bonus += r.bonus; last = r; }
+  });
+  S.earned += bonus;
+  return { bonus, last };
+}
+// Kinds read are remembered in S.kinds, so removing a book never takes a kind or badge away.
+function checkKinds() {
+  S.books.forEach(b => { if (b.genre && !S.kinds.includes(b.genre)) S.kinds.push(b.genre); });
+  let bonus = 0, last = null;
+  KIND_BADGES.forEach(k => {
+    if (S.kinds.length >= k.n && !S.kindBadges.includes(k.n)) { S.kindBadges.push(k.n); bonus += k.bonus; last = k; }
+  });
+  S.earned += bonus;
+  return { bonus, last };
+}
+const stickerOpen = s => s.id[0] === 'r' ? S.rungs.includes(+s.id.slice(1)) : S.kinds.includes(s.id.slice(2));
+function placedHtml() {
+  return STICKERS.filter(s => S.placed.includes(s.id) && stickerOpen(s)).map(s => '<span class="wob" title="' + s.name + '">' + s.em + '</span>').join('');
+}
+function renderStickers() {
+  const n = S.kinds.length, next = KIND_BADGES.find(k => n < k.n);
+  $('kindsCard').innerHTML = '<h2>🧭 Kinds Explorer</h2>' +
+    '<div style="font-weight:800">' + n + ' of ' + GENRES.length + ' kinds of books explored' +
+    (next ? ' · try ' + (next.n - n) + ' more kind' + (next.n - n > 1 ? 's' : '') + ' for ' + next.em + ' ' + next.name + '! (🪙 +' + next.bonus + ')' : ' · You explored them all! 🎉') + '</div>' +
+    '<div class="kinds">' + GENRES.map(([g, e]) => S.kinds.includes(g)
+      ? '<div class="kind got"><span class="em">' + e + '</span>' + g + ' ✅</div>'
+      : '<div class="kind"><span class="em">❓</span>' + g + '</div>').join('') + '</div>' +
+    '<div class="badges">' + KIND_BADGES.map(k => '<span class="badge' + (S.kindBadges.includes(k.n) ? ' got' : '') + '">' + (S.kindBadges.includes(k.n) ? k.em : '🔒') + ' ' + k.name + ' (' + k.n + ' kinds)</span>').join('') + '</div>';
+  $('album').innerHTML = STICKERS.map(s => {
+    if (!stickerOpen(s)) return '<div class="sticker lock"><span class="em">❔</span><b>???</b><small>' + s.how + '</small></div>';
+    const on = S.placed.includes(s.id);
+    return '<button class="sticker got' + (on ? ' on' : '') + '" data-act="sticker" data-id="' + s.id + '"><span class="em">' + s.em + '</span><b>' + s.name + '</b><small>' + (on ? 'On my wall ✅' : 'Tap to stick up!') + '</small></button>';
+  }).join('');
+}
+function renderShop() {
+  $('shop').innerHTML = SHOP.map(it => {
+    const have = it.kind !== 'shelf' && S.owned[it.id];
+    const cost = costOf(it), ok = balance() >= cost;
+    return '<div class="item' + (have ? ' have' : '') + '"><div class="em">' + it.em + '</div><div class="nm">' + it.name + (it.kind === 'shelf' ? ' ×' + (S.owned.shelf || 1) : '') + '</div><div class="ds">' + it.ds + '</div>' +
+      (have ? '<div class="nm" style="color:var(--good)">✅ Got it!</div>'
+            : '<button class="buy' + (ok ? '' : ' no') + '" data-act="buy" data-id="' + it.id + '">🪙 ' + cost + '</button>') + '</div>';
+  }).join('');
+}
+function suggestions(f) {
+  const rated = S.books.filter(b => b.rating >= 4).sort((a, b) => b.rating - a.rating);
+  const match = rated.filter(b => f.likes.includes(b.genre));
+  return match.map(b => ({ b, match: true })).concat(rated.filter(b => !match.includes(b)).map(b => ({ b, match: false }))).slice(0, 5);
+}
+function letter(f, b) {
+  const why = f.likes.includes(b.genre) ? 'I know you like ' + b.genre.toLowerCase() + ' books. ' : '';
+  return 'Hi ' + f.name + '!\nI just read "' + b.title + '"' + (b.author ? ' by ' + b.author : '') + '. I gave it ' + b.rating + ' stars (' + stars(b.rating) + ').\n' +
+    (b.note ? 'I liked it because: ' + b.note + '\n' : '') + why + 'I think you will love it too!';
+}
+function renderFriends() {
+  $('fr-avatars').innerHTML = AVATARS.map(a => '<button type="button" class="chip' + (fdraft.avatar === a ? ' on' : '') + '" style="font-size:26px" data-act="pickAvatar" data-id="' + a + '">' + a + '</button>').join('');
+  $('fr-genres').innerHTML = chipHtml('pickLike', GENRES, fdraft.likes);
+  if (!S.friends.length) { $('friends').innerHTML = '<div class="empty">Add a friend above, then pick books to tell them about! 💌</div>'; return; }
+  $('friends').innerHTML = S.friends.map(f => {
+    const list = suggestions(f);
+    const sure = confirmId === 'f' + f.id;
+    const rows = list.length ? list.map(({ b, match }) => {
+      const key = b.id + '|' + f.id, done = S.recs.some(r => r.b === b.id && r.f === f.id);
+      return '<div class="sug"><div class="dot" style="background:' + esc(b.color) + '"></div>' +
+        '<div class="why"><b>' + esc(b.title) + '</b> <span style="color:#e6a800">' + stars(b.rating) + '</span><small>' +
+        (match ? '👍 ' + esc(f.name) + ' likes ' + esc(b.genre.toLowerCase()) + ' books' : 'Not their usual kind, but I loved it!') + '</small></div>' +
+        '<button class="small ' + (done ? '' : 'go') + '" data-act="rec" data-id="' + key + '">' + (done ? 'Recommended ✓' : 'Recommend 💌') + '</button>' +
+        (openNote === key ? '<div class="letter"><textarea readonly id="note-' + b.id + '-' + f.id + '">' + esc(letter(f, b)) + '</textarea>' +
+          '<button class="small" data-act="copy" data-id="' + key + '">📋 Copy my note</button></div>' : '') + '</div>';
+    }).join('') : '<div class="empty">Give a book 4 or 5 stars and it can be recommended here! ⭐</div>';
+    return '<div class="friend"><div class="fhead"><span class="avatar">' + f.avatar + '</span><span class="fname">' + esc(f.name) + '</span>' +
+      (sure ? '<button class="small warn" data-act="delFriend" data-id="' + f.id + '">Really remove?</button><button class="small" data-act="nodel">No</button>'
+            : '<button class="small" data-act="delFriend" data-id="' + f.id + '" aria-label="Remove ' + esc(f.name) + '">🗑️</button>') + '</div>' +
+      '<div style="margin:4px 0">' + (f.likes.length ? f.likes.map(g => '<span class="tag">' + GICON[g] + ' ' + g + '</span> ').join('') : '<span class="meta">No favourites picked yet</span>') + '</div>' + rows + '</div>';
+  }).join('');
+}
+function render() {
+  $('coins').textContent = '🪙 ' + balance();
+  document.querySelectorAll('#tabs button').forEach(b => { const on = b.dataset.id === tab; b.classList.toggle('on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
+  ['books', 'library', 'stickers', 'shop', 'friends'].forEach(t => $('p-' + t).hidden = t !== tab);
+  if (tab === 'books') renderList();
+  if (tab === 'stickers') renderStickers();
+  if (tab === 'library') renderRoom();
+  if (tab === 'shop') renderShop();
+  if (tab === 'friends') renderFriends();
+  save();
+}
+
+/* ---------- actions ---------- */
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if (!t) return;
+  const id = t.dataset.id, n = +t.dataset.n;
+  switch (t.dataset.act) {
+    case 'tab': tab = id; confirmId = ''; render(); window.scrollTo(0, 0); break;
+    case 'pickGenre': draft.genre = draft.genre === id ? '' : id; renderForm(); break;
+    case 'pickColor': draft.color = id; renderForm(); break;
+    case 'draftRate': draft.rating = n; renderForm(); break;
+    case 'addBook': addBook(); break;
+    case 'rate': {
+      const b = S.books.find(x => x.id === id); if (!b) break;
+      b.rating = n;
+      if (!b.bonus) { b.bonus = true; S.earned += BONUS_RATE; celebrate('+' + BONUS_RATE + ' 🪙 for rating!'); }
+      render(); break;
+    }
+    case 'del':
+      if (confirmId === 'b' + id) { S.books = S.books.filter(b => b.id !== id); S.recs = S.recs.filter(r => r.b !== id); confirmId = ''; }
+      else confirmId = 'b' + id;
+      render(); break;
+    case 'delFriend':
+      if (confirmId === 'f' + id) { S.friends = S.friends.filter(f => f.id !== id); S.recs = S.recs.filter(r => r.f !== id); confirmId = ''; }
+      else confirmId = 'f' + id;
+      render(); break;
+    case 'nodel': confirmId = ''; render(); break;
+    case 'spine': { const b = S.books.find(x => x.id === id); if (b) toast('“' + b.title + '” ' + (b.rating ? stars(b.rating) : '')); break; }
+    case 'backup': backup(); break;
+    case 'buy': buy(id); break;
+    case 'sticker': {
+      S.placed = S.placed.includes(id) ? S.placed.filter(x => x !== id) : S.placed.concat(id);
+      render(); toast(S.placed.includes(id) ? 'Stuck on your library wall! 🏰' : 'Peeled off the wall.'); break;
+    }
+    case 'pickAvatar': fdraft.avatar = id; renderFriends(); break;
+    case 'pickLike': fdraft.likes = fdraft.likes.includes(id) ? fdraft.likes.filter(g => g !== id) : fdraft.likes.concat(id); renderFriends(); break;
+    case 'addFriend': addFriend(); break;
+    case 'rec': recommend(id); break;
+    case 'copy': copyNote(id); break;
+  }
+});
+$('f-pages').addEventListener('input', renderForm);
+$('restore').addEventListener('change', e => { if (e.target.files[0]) restore(e.target.files[0]); e.target.value = ''; });
+
+function addBook() {
+  const title = $('f-title').value.trim();
+  if (!title) { $('f-msg').textContent = 'Please type the name of the book first. 📕'; $('f-title').focus(); return; }
+  $('f-msg').textContent = '';
+  const pages = Math.max(0, Math.min(999, Math.round(+$('f-pages').value || 0)));
+  const coins = coinsFor(pages, draft.rating > 0);
+  S.books.unshift({
+    id: String(Date.now()) + Math.floor(Math.random() * 1000), title, author: $('f-author').value.trim(), pages,
+    genre: draft.genre, color: draft.color, rating: draft.rating, note: $('f-note').value.trim(),
+    bonus: draft.rating > 0, date: new Date().toISOString().slice(0, 10),
+  });
+  S.earned += coins;
+  ['f-title', 'f-author', 'f-pages', 'f-note'].forEach(i => $(i).value = '');
+  draft = { genre: '', color: COLORS[Math.floor(Math.random() * COLORS.length)], rating: 0 };
+  const before = STICKERS.filter(stickerOpen).map(s => s.id);
+  const up = checkRungs(), kb = checkKinds();
+  const fresh = STICKERS.filter(s => stickerOpen(s) && !before.includes(s.id));
+  renderForm(); render();
+  celebrate('+' + coins + ' 🪙 coins!' +
+    (up.last ? '\n' + up.last.em + ' New rung: ' + up.last.name + '! +' + up.bonus + ' 🪙' : '') +
+    (kb.last ? '\n' + kb.last.em + ' Badge: ' + kb.last.name + '! +' + kb.bonus + ' 🪙' : '') +
+    (fresh.length ? '\n🏅 New sticker: ' + fresh.map(s => s.em + ' ' + s.name).join(', ') : ''));
+}
+function buy(id) {
+  const it = SHOP.find(x => x.id === id), cost = costOf(it);
+  if (balance() < cost) { toast('You need ' + (cost - balance()) + ' more coins. Read another book! 📖'); return; }
+  S.spent += cost; S.owned[id] = (S.owned[id] || 0) + 1;
+  render(); celebrate('You got ' + (it.kind === 'shelf' ? 'a new bookshelf' : 'a ' + it.name.toLowerCase()) + '! ' + it.em);
+}
+function addFriend() {
+  const name = $('fr-name').value.trim();
+  if (!name) { $('fr-msg').textContent = 'Please type your friend\'s name. 💛'; $('fr-name').focus(); return; }
+  $('fr-msg').textContent = '';
+  S.friends.push({ id: String(Date.now()) + Math.floor(Math.random() * 1000), name, avatar: fdraft.avatar, likes: fdraft.likes });
+  $('fr-name').value = ''; fdraft = { avatar: AVATARS[(S.friends.length) % AVATARS.length], likes: [] };
+  render(); toast(name + ' is now on your friends list!');
+}
+function recommend(key) {
+  const [b, f] = key.split('|');
+  if (!S.recs.some(r => r.b === b && r.f === f)) {
+    S.recs.push({ b, f }); S.earned += BONUS_REC; celebrate('+' + BONUS_REC + ' 🪙 for sharing!');
+  }
+  openNote = openNote === key ? '' : key;
+  render();
+}
+function copyNote(key) {
+  const [b, f] = key.split('|'), ta = $('note-' + b + '-' + f); if (!ta) return;
+  ta.select();
+  const ok = () => toast('Copied! Now you can paste it in a message. 📋');
+  const fallback = () => { try { document.execCommand('copy') ? ok() : toast('Press and hold the note to copy it.'); } catch (e) { toast('Press and hold the note to copy it.'); } };
+  try { navigator.clipboard.writeText(ta.value).then(ok, fallback); } catch (e) { fallback(); }
+}
+
+draft.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+$('say').textContent = SAYS[Math.floor(Math.random() * SAYS.length)];
+renderForm(); render();
+</script>
+</body>
+</html>
